@@ -16,26 +16,36 @@ class HomepageController extends Controller
 
     public function index()
     {
-        // Recommended books
-        DB::enableQueryLog();
+        $onsale_books = BookResource::collection(
+            $this->bookModel
+                ->selectSubPrice()
+                ->orderByDesc('sub_price')
+                ->limit(10)
+                ->get()
+        );
 
-        return $recommended_books = BookResource::collection(
+        $recommended_books = BookResource::collection(
             $this->bookModel
                 ->has('reviews')
                 ->selectAvgStar()
-                ->selectDiscountPrice()
+                ->selectFinalPrice()
                 ->orderByDesc('avg_star')
-                ->orderBy('discount_price')
+                ->orderBy('final_price')
                 ->limit(8)
                 ->get()
-                ->sortBy([
-                    ['avg_star', 'desc'],
-                    ['final_price', 'asc']
-                ])
         );
 
+        $popular_books = BookResource::collection(
+            $this->bookModel
+                ->withCount('reviews')
+                ->selectFinalPrice()
+                ->orderByDesc('reviews_count')
+                ->orderBy('final_price')
+                ->limit(8)
+                ->get()
+        );
 
-        dd(DB::getQueryLog());
+        return compact('onsale_books', 'recommended_books', 'popular_books');
     }
 }
 
