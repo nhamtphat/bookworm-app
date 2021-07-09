@@ -1,0 +1,33 @@
+
+
+
+.bg{background-color:$gray-100;}
+.bg-white{background-color:#fff}
+.bg-orange {   background-color: $orange;}
+.bg-green {   background-color: $green;}
+.bg-blue {   background-color: $blue;}
+.bg-red {   background-color: $red;}
+
+.bg-gradient-blue{
+  @include diagonalGradient(rgba($blue, .9), rgba($dark, .4));  transition:.5s;
+}
+.bg-gradient-green{
+  @include diagonalGradient(rgba($green, .9), rgba($dark, .4));  transition:.5s;
+}
+.bg-gradient-orange{
+  @include diagonalGradient(rgba($orange, .9), rgba($dark, .4));  transition:.5s;
+}
+.bg-gradient-red{
+  @include diagonalGradient(rgba($red, .9), rgba($dark, .4));  transition:.5s;
+}
+.bg-gradient-pink{
+  @include diagonalGradient(rgba($pink, .9), rgba($dark, .4));  transition:.5s;
+}
+
+.overlay-gradient {position:relative;
+    &:before{position:absolute; content:""; display:block; top:0; left:0; right:0; bottom:0;
+        opacity:.6; transition:.5s;
+        @include diagonalGradient($blue, aqua);  
+    }
+    &:hover:before{opacity:.9;}
+}
