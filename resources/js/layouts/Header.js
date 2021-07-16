@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import logo from "../../assets/images/bookworm_logo.svg";
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 
 class Header extends Component {
     render() {
         return (
             <header className="section-header">
                 <section className="border-bottom">
-                    <Navbar className="navbar navbar-main  navbar-expand-lg navbar-light">
+                    <Navbar className="navbar navbar-main  navbar-expand-lg navbar-light" expand="lg">
                         <Container>
                             <Navbar.Brand className="py-2">
                                 <Link to="/">
@@ -23,9 +23,6 @@ class Header extends Component {
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Link to="/shop" className="nav-link">Shop</Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Link to="/product" className="nav-link">Product</Link>
                                     </Nav.Item>
                                     <Nav.Item>
                                         <Link to="/about" className="nav-link">About</Link>

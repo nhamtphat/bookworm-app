@@ -10,10 +10,17 @@ import "../../assets/fonts/material-icons/css/materialdesignicons.css";
 // Custom style
 import "../../assets/sass/ui.scss";
 import "../../assets/sass/responsive.scss";
+import "../../assets/sass/_variables-custom.scss";
 
 class Layout extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            window.scrollTo(0, 0)
+        }
     }
 
     render() {

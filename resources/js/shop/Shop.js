@@ -1,123 +1,109 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../layouts";
 import BookGridFigure from "../common/BookGridFigure";
 import BookListFigure from "../common/BookListFigure";
+import CustomPagination from "../common/CustomPagination"
 import FilterGroup from "./FilterGroup";
+import axios from "axios";
+import {Helmet} from "react-helmet";
+import {useLocation} from "react-router-dom";
 
-export default class Shop extends Component {
-    state = {
-        books: [
-            {
-                id: 1,
-                name: "Test book A",
-                price: 14.3
-            },
-            {
-                id: 2,
-                name: "Test book B",
-                price: 54.3
-            },
-            {
-                id: 3,
-                name: "Test book C",
-                price: 54.3
-            },
-            {
-                id: 4,
-                name: "Test book D",
-                price: 54.3
-            },
-            {
-                id: 5,
-                name: "Test book E",
-                price: 54.3
-            },
-            {
-                id: 6,
-                name: "Test book F",
-                price: 54.3
-            },
-            {
-                id: 7,
-                name: "Test book G",
-                price: 54.3
-            },
-            {
-                id: 8,
-                name: "Test book H",
-                price: 54.3
-            },
-        ],
-        grid_view: true
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
+export default function Shop (props) {
+    let query = useQuery();
+
+    const [view, setView] = useState("grid")
+    const [order, setOrder] = useState('desc')
+    const [by, setBy] = useState('created_at')
+    const [perPage, setPerPage] = useState(20)
+    const [page, setPage] = useState(1)
+    const [data, setData] = useState([])
+    const [meta, setMeta] = useState({})
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    function changePage(page) {
+        setPage(page);
+        fetchData()
     }
 
-    setView = (view) => {
-        let mode = (view==="grid")
-        this.setState({grid_view: mode})
+    function fetchData() {
+        const config = {
+            params: {
+                per_page: perPage,
+                page: page,
+                order: order,
+                by: by
+            }
+        }
+        let data = []
+        axios.get("/api/shop", config)
+            .then(response => {
+                setData(response.data.data)
+                setMeta(response.data.meta)
+            })
     }
 
-    render() {
-        return (
-            <Layout>
-                <section className="section-content bg padding-y">
-                    <div className="container">
-                        <div className="row">
-                            <aside className="col-md-3">
-                                <div className="card">
-                                    <FilterGroup />
-                                </div>
-                            </aside>
-                            <main className="col-md-9">
-                                <header className="border-bottom mb-4 pb-3">
-                                    <div className="form-inline">
-                                        <span className="mr-md-auto">32 Items found </span>
-                                        <select className="mr-2 form-control">
-                                            <option>Latest items</option>
-                                            <option>Trending</option>
-                                            <option>Most Popular</option>
-                                            <option>Cheapest</option>
-                                        </select>
-                                        <div className="btn-group">
-                                            <button
-                                               className={`btn btn-outline-secondary ${(! this.state.grid_view)? 'active' : ""}`}
-                                               onClick={() => this.setView("list")}
-                                               title="List view">
-                                                <i className="fa fa-bars"></i>
-                                            </button>
-                                            <button
-                                               className={`btn btn-outline-secondary ${this.state.grid_view? 'active' : ""}`}
-                                               onClick={() => this.setView("grid")}
-                                               title="Grid view">
-                                                <i className="fa fa-th"></i>
-                                            </button>
-                                        </div>
+    return (
+        <Layout>
+            <Helmet>
+                <title>Bookworm Shop</title>
+            </Helmet>
+            <section className="section-content bg padding-y">
+                <div className="container">
+                    <div className="row">
+                        <aside className="col-md-3">
+                            <div className="card">
+                                <FilterGroup/>
+                            </div>
+                        </aside>
+                        <main className="col-md-9">
+                            <header className="border-bottom mb-4 pb-3">
+                                <div className="form-inline">
+                                    <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} book`} </span>
+                                    <select className="mr-2 form-control">
+                                        <option>Latest items</option>
+                                        <option>Trending</option>
+                                        <option>Most Popular</option>
+                                        <option>Cheapest</option>
+                                    </select>
+                                    <div className="btn-group">
+                                        <button
+                                            className={`btn btn-outline-secondary ${(view === "list")? 'active' : ""}`}
+                                            onClick={() => setView("list")}
+                                            title="List view">
+                                            <i className="fa fa-bars"></i>
+                                        </button>
+                                        <button
+                                            className={`btn btn-outline-secondary ${(view === "grid")? 'active' : ""}`}
+                                            onClick={() => setView("grid")}
+                                            title="Grid view">
+                                            <i className="fa fa-th"></i>
+                                        </button>
                                     </div>
-                                </header>
-
-                                <div className="row">
-                                    {this.state.books.map(book => (
-                                        (this.state.grid_view)
-                                            ? <div key={book.id} className="col-md-3"> <BookGridFigure book={book} /> </div>
-                                            : <div key={book.id} className="col-md-12"> <BookListFigure book={book} /> </div>
-                                    ))}
                                 </div>
+                            </header>
 
-                                <nav className="mt-4" aria-label="Page navigation sample">
-                                    <ul className="pagination">
-                                        <li className="page-item disabled"><a className="page-link" href="#">Previous</a>
-                                        </li>
-                                        <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
+                            <div className="row">
+                                {data.map(book => (
+                                    (view === "grid")
+                                        ?
+                                        <div key={book.id} className="col-md-3"><BookGridFigure book={book}/></div>
+                                        :
+                                        <div key={book.id} className="col-md-12"><BookListFigure book={book}/></div>
+                                ))}
+                            </div>
 
-                            </main>
-                        </div>
+                            <CustomPagination page_count={meta.last_page} current_page={page} setPage={changePage}/>
+                        </main>
                     </div>
-                </section>
-            </Layout>
-        );
-    }
+                </div>
+            </section>
+        </Layout>
+    );
 }

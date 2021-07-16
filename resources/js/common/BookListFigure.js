@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import product_image from "../../assets/images/items/7.jpg";
+import {Link} from "react-router-dom";
 
 class BookListFigure extends Component {
     render() {
         return (
-
             <article className="card card-product-list">
                 <div className="row no-gutters">
                     <aside className="col-md-3">
@@ -15,7 +15,7 @@ class BookListFigure extends Component {
                     </aside>
                     <div className="col-md-6">
                         <div className="info-main">
-                            <a href="#" className="h5 title"> {this.props.name} </a>
+                            <Link to={'products/' + this.props.book.id} className="h5 title"> {this.props.book.book_title} </Link>
                             <div className="rating-wrap mb-3">
                                 <ul className="rating-stars">
                                     <li style={{width: "80%"}} className="stars-active">
@@ -32,21 +32,25 @@ class BookListFigure extends Component {
                                 <div className="label-rating">7/10</div>
                             </div>
 
-                            <p> Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
+                            <p> {this.props.book.book_summary} </p>
                         </div>
                     </div>
                     <aside className="col-sm-3">
                         <div className="info-aside">
                             <div className="price-wrap">
-                                <span className="price h5"> {this.props.price} </span>
-                                <del className="price-old"> {this.props.price}</del>
+                                <span className="price h5"> {this.props.book.final_price} </span>
+                                <del className="price-old"> {this.props.book.book_price}</del>
                             </div>
                             <p className="text-success">Free shipping</p>
                             <br />
                             <p>
-                                <a href="#" className="btn btn-primary btn-block"> Details </a>
-                                <a href="#" className="btn btn-light btn-block"><i className="fa fa-heart"></i>
-                                    <span className="text">Add to wishlist</span>
+                                <Link to={"products/" + this.props.book.id} className="btn btn-primary btn-block">
+                                    <i className="fa fa-eye"></i>
+                                    <span className="text">View product</span>
+                                </Link>
+                                <a href="#" className="btn btn-light btn-block">
+                                    <i className="fa fa-shopping-bag"></i>
+                                    <span className="text">Add to cart</span>
                                 </a>
                             </p>
                         </div>

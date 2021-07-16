@@ -4,8 +4,27 @@ import BookGridFigure from "../common/BookGridFigure";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
+import {Helmet} from "react-helmet";
 
 export default class Home extends Component {
+    state = {
+        onsale_books: [],
+        recommended_books: [],
+        popular_books: [],
+    }
+
+    componentWillMount() {
+        axios.get("/api/homepage")
+            .then(response => {
+                this.setState({
+                    onsale_books: response.data.onsale_books,
+                    recommended_books: response.data.recommended_books,
+                    popular_books: response.data.popular_books
+                })
+            });
+    }
+
     render() {
         const settings = {
             infinite: true,
@@ -24,11 +43,14 @@ export default class Home extends Component {
 
         return (
             <Layout>
+                <Helmet>
+                    <title>Bookworm Homepage</title>
+                </Helmet>
                 <section className="section-content bg padding-y">
                     <div className="container">
                         <h4>Slick slider items</h4>
                         <Slider {...settings}>
-                        {this.state.books.map(book => (
+                        {this.state.onsale_books.map(book => (
                             <div key={book.id} className="item-slide p-2">
                                 <BookGridFigure book={book} />
                             </div>
@@ -37,7 +59,7 @@ export default class Home extends Component {
 
                         <h4 className="mt-5">Recommended Books</h4>
                         <div className="row">
-                            {this.state.books.map(book => (
+                            {this.state.recommended_books.map(book => (
                                 <div key={book.id} className="col-md-3">
                                     <div className="item-slide p-2">
                                         <BookGridFigure book={book} />
@@ -48,7 +70,7 @@ export default class Home extends Component {
 
                         <h4 className="mt-5">Popular books</h4>
                         <div className="row">
-                            {this.state.books.map(book => (
+                            {this.state.popular_books.map(book => (
                                 <div key={book.id} className="col-md-3">
                                     <div className="item-slide p-2">
                                         <BookGridFigure book={book} />
@@ -60,49 +82,5 @@ export default class Home extends Component {
                 </section>
             </Layout>
         )
-    }
-    state = {
-        books: [
-            {
-                id: 1,
-                name: "Test book A",
-                price: 14.3
-            },
-            {
-                id: 2,
-                name: "Test book B",
-                price: 54.3
-            },
-            {
-                id: 3,
-                name: "Test book C",
-                price: 54.3
-            },
-            {
-                id: 4,
-                name: "Test book D",
-                price: 54.3
-            },
-            {
-                id: 5,
-                name: "Test book E",
-                price: 54.3
-            },
-            {
-                id: 6,
-                name: "Test book F",
-                price: 54.3
-            },
-            {
-                id: 7,
-                name: "Test book G",
-                price: 54.3
-            },
-            {
-                id: 8,
-                name: "Test book H",
-                price: 54.3
-            },
-        ]
     }
 }
