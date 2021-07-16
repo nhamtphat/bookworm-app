@@ -62,25 +62,35 @@ class Book extends Model
 
     public function scopeSelectFinalPrice($query)
     {
-        return $query->selectRaw('COALESCE(discounts.discount_price, books.book_price) as final_price')
-            ->leftJoin('discounts', function ($join) {
-                $join->on('books.id', '=', 'discounts.book_id')
-                    ->whereDate('discount_start_date', '<', now())
-                    ->where(function ($query) {
-                        $query->whereDate('discount_end_date', '>', now())
-                            ->orWhereNull('discount_end_date');
-                    });
-            });
+        return $query->addSelect([
+            'final_price' => DB::table('books as sub_books')->selectRaw('COALESCE(discounts.discount_price, books.book_price)')
+                ->whereColumn('books.id', '=', 'sub_books.id')
+                ->leftJoin('discounts', function ($join) {
+                    $join->on('sub_books.id', '=', 'discounts.book_id')
+                        ->whereDate('discount_start_date', '<', now())
+                        ->where(function ($query) {
+                            $query->whereDate('discount_end_date', '>', now())
+                                ->orWhereNull('discount_end_date');
+                        });
+                })
+                ->limit(1)
+        ]);
     }
 
     public function scopeSelectSubPrice($query)
     {
         return $query
-            ->whereHas('availableDiscounts')
             ->addSelect([
-                'sub_price' => Discount::select(DB::raw('book_price - discount_price'))
-                    ->whereColumn('book_id', 'books.id')
-                    ->latest('id')
+                'sub_price' => DB::table('books as sub_books')->selectRaw('COALESCE(books.book_price - discounts.discount_price, 0)')
+                    ->whereColumn('books.id', '=', 'sub_books.id')
+                    ->leftJoin('discounts', function ($join) {
+                        $join->on('sub_books.id', '=', 'discounts.book_id')
+                            ->whereDate('discount_start_date', '<', now())
+                            ->where(function ($query) {
+                                $query->whereDate('discount_end_date', '>', now())
+                                    ->orWhereNull('discount_end_date');
+                            });
+                    })
                     ->limit(1)
             ]);
     }
