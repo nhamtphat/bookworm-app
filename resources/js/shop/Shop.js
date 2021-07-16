@@ -25,12 +25,7 @@ export default function Shop (props) {
 
     useEffect(() => {
         fetchData()
-    }, [])
-
-    function changePage(page) {
-        setPage(page);
-        fetchData()
-    }
+    }, [page])
 
     function fetchData() {
         const config = {
@@ -41,7 +36,6 @@ export default function Shop (props) {
                 by: by
             }
         }
-        let data = []
         axios.get("/api/shop", config)
             .then(response => {
                 setData(response.data.data)
@@ -99,7 +93,7 @@ export default function Shop (props) {
                                 ))}
                             </div>
 
-                            <CustomPagination page_count={meta.last_page} current_page={page} setPage={changePage}/>
+                            <CustomPagination page_count={meta.last_page} current_page={page} setPage={setPage}/>
                         </main>
                     </div>
                 </div>
