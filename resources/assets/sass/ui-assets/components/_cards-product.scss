@@ -10,7 +10,11 @@ a[class*='card']{
 /* BASE STYLE FOR PRODUCT ITEM */
 [class*='card-product']{
 
-    a.title{color:$dark; display: block;
+    a.title{
+        color:$dark;
+        display: block;
+        height: $font-size-base*3;
+        overflow: hidden;
         &:hover{ color:$primary; }
     }
 

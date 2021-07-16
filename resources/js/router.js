@@ -18,7 +18,7 @@ export default class router extends Component {
             <Router>
                 <Route exact path="/" component={Home} />
                 <Route path="/shop" component={Shop} />
-                <Route path="/product" component={Product} />
+                <Route path="/products/:id" component={Product} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/about" component={About} />
             </Router>

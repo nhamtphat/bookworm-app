@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BookResource extends JsonResource
+class BookCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -17,7 +17,6 @@ class BookResource extends JsonResource
         return array_merge(
             parent::toArray($request),
             [
-                'author_name' => $this->author->author_name,
                 'final_price' => $this->final_price
             ]
         );
