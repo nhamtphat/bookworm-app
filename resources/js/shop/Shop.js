@@ -16,24 +16,29 @@ export default function Shop (props) {
     let query = useQuery();
 
     const [view, setView] = useState("grid")
-    const [order, setOrder] = useState('desc')
-    const [by, setBy] = useState('created_at')
+    const [sortBy, setSortBy] = useState('on_sale')
     const [perPage, setPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
     const [meta, setMeta] = useState({})
 
+    const [sortMode, setSortMode] = useState([
+        {mode: 'onsale', name:"On sale" },
+        {mode: 'popularity', name:"Popularity" },
+        {mode: 'asc_price', name:"Ascending price" },
+        {mode: 'desc_price', name:"Descending price" }
+    ]);
+
     useEffect(() => {
         fetchData()
-    }, [page])
+    }, [page, sortBy])
 
     function fetchData() {
         const config = {
             params: {
                 per_page: perPage,
                 page: page,
-                order: order,
-                by: by
+                sort_by: sortBy
             }
         }
         axios.get("/api/shop", config)
@@ -41,6 +46,10 @@ export default function Shop (props) {
                 setData(response.data.data)
                 setMeta(response.data.meta)
             })
+    }
+
+    function changeSortBy(event) {
+        setSortBy(event.target.value);
     }
 
     return (
@@ -60,11 +69,10 @@ export default function Shop (props) {
                             <header className="border-bottom mb-4 pb-3">
                                 <div className="form-inline">
                                     <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} book`} </span>
-                                    <select className="mr-2 form-control">
-                                        <option>Latest items</option>
-                                        <option>Trending</option>
-                                        <option>Most Popular</option>
-                                        <option>Cheapest</option>
+                                    <select className="mr-2 form-control" onChange={changeSortBy}>
+                                        {sortMode.map((mode) => (
+                                            <option key={mode.mode} value={mode.mode}>{mode.name}</option>
+                                        ))}
                                     </select>
                                     <div className="btn-group">
                                         <button
