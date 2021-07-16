@@ -18,7 +18,32 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->per_page ?? 20;
-        
-        return BookResource::collection($this->bookModel->paginate($per_page));
+
+        $query = $this->bookModel->selectFinalPrice();
+
+        switch ($request->get('sort_by')) {
+            case "popularity":
+                $query = $query
+                    ->withCount('reviews')
+                    ->orderByDesc('reviews_count')
+                    ->orderBy('final_price');
+                break;
+
+            case "asc_price":
+                $query = $query->orderBy('final_price');
+                break;
+
+            case "desc_price":
+                $query = $query->orderByDesc('final_price');
+                break;
+
+            default:
+                $query = $query
+                    ->selectSubPrice()
+                    ->orderByDesc('sub_price')
+                    ->orderBy('final_price');
+        }
+
+        return BookResource::collection($query->paginate($per_page));
     }
 }
