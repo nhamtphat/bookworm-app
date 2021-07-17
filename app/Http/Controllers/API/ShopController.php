@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use App\Models\Discount;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BookCollection;
 
@@ -15,11 +17,17 @@ class ShopController extends Controller
         $this->bookModel = $bookModel;
     }
 
-    public function index(Request $request)
+    public function getProducts(Request $request)
     {
         $per_page = $request->per_page ?? 20;
 
         $query = $this->bookModel->selectFinalPrice();
+
+        if ($request->get('filter_by') != "" && $request->get('filter_id') != "") {
+            $filter_by = $request->get('filter_by');
+            $filter_id = $request->get('filter_id');
+            $query = $query->where($filter_by, $filter_id);
+        }
 
         switch ($request->get('sort_by')) {
             case "popularity":
@@ -43,6 +51,8 @@ class ShopController extends Controller
                     ->orderByDesc('sub_price')
                     ->orderBy('final_price');
         }
+
+//        return $query->toSql();
 
         return BookResource::collection($query->paginate($per_page));
     }

@@ -16,21 +16,6 @@ class BookListFigure extends Component {
                     <div className="col-md-6">
                         <div className="info-main">
                             <Link to={'products/' + this.props.book.id} className="h5 title"> {this.props.book.book_title} </Link>
-                            <div className="rating-wrap mb-3">
-                                <ul className="rating-stars">
-                                    <li style={{width: "80%"}} className="stars-active">
-                                        <i className="fa fa-star"></i> <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i> <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i className="fa fa-star"></i> <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i> <i className="fa fa-star"></i>
-                                        <i className="fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <div className="label-rating">7/10</div>
-                            </div>
 
                             <p> {this.props.book.book_summary} </p>
                         </div>
@@ -39,7 +24,12 @@ class BookListFigure extends Component {
                         <div className="info-aside">
                             <div className="price-wrap">
                                 <span className="price h5"> {this.props.book.final_price} </span>
-                                <del className="price-old"> {this.props.book.book_price}</del>
+                                {(this.props.book.final_price != this.props.book.book_price)
+                                    ?
+                                    <del className="price-old">${this.props.book.book_price}</del>
+                                    :
+                                    <></>
+                                }
                             </div>
                             <p className="text-success">Free shipping</p>
                             <br />

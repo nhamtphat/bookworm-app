@@ -1,40 +1,26 @@
 import React, {Component} from 'react';
+import {Accordion, Card, Button} from "react-bootstrap";
 
-class FilterGroup extends Component {
-    render() {
-        return (
-            <article className="filter-group">
-                <header className="card-header">
-                    <a>
-                        <h6 className="title">More filter </h6>
-                    </a>
-                </header>
-                <div className="filter-content show">
-                    <div className="card-body">
-                        <label className="custom-control custom-radio">
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                            <div className="custom-control-label">Any condition</div>
+function FilterGroup (props) {
+    return (
+        <Card>
+            <Card.Header>
+                <Accordion.Toggle as={Card.Title} variant="link" eventKey={props.eventKey}>
+                    {props.title}
+                </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey={props.eventKey}>
+                <Card.Body>
+                    {props.data.map((item) => (
+                        <label className="custom-control custom-radio" key={item.id}>
+                            <input type="radio" name="myfilter_radio" className="custom-control-input" value={item.id} onChange={() => props.onChange(props.eventKey, item.id)}/>
+                            <div className="custom-control-label">{item.name}</div>
                         </label>
-
-                        <label className="custom-control custom-radio">
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                            <div className="custom-control-label">Brand new</div>
-                        </label>
-
-                        <label className="custom-control custom-radio">
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                            <div className="custom-control-label">Used items</div>
-                        </label>
-
-                        <label className="custom-control custom-radio">
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                            <div className="custom-control-label">Very old</div>
-                        </label>
-                    </div>
-                </div>
-            </article>
-        );
-    }
+                    ))}
+                </Card.Body>
+            </Accordion.Collapse>
+        </Card>
+    );
 }
 
 export default FilterGroup;

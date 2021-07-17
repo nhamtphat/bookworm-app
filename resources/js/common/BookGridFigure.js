@@ -16,7 +16,13 @@ class BookGridFigure extends Component {
                     <Link to={"/products/" + this.props.book.id} className="title">{this.props.book.book_title}</Link>
                     <div className="price-wrap mt-2">
                         <span className="price">${this.props.book.final_price}</span>
-                        <del className="price-old">${this.props.book.book_price}</del>
+                        {(this.props.book.final_price != this.props.book.book_price)
+                            ?
+                            <del className="price-old">${this.props.book.book_price}</del>
+                            :
+                            <></>
+                        }
+
                     </div>
                 </figcaption>
             </figure>
