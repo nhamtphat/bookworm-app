@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Layout from "../layouts";
 import BookGridFigure from "../common/BookGridFigure";
 import BookListFigure from "../common/BookListFigure";
@@ -6,39 +6,62 @@ import CustomPagination from "../common/CustomPagination"
 import FilterGroup from "./FilterGroup";
 import axios from "axios";
 import {Helmet} from "react-helmet";
-import {useLocation} from "react-router-dom";
-
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
+import {Accordion} from "react-bootstrap";
 
 export default function Shop (props) {
-    let query = useQuery();
-
     const [view, setView] = useState("grid")
     const [sortBy, setSortBy] = useState('on_sale')
+    const [filter, setFilter] = useState({filterBy: "", filterId: 0})
     const [perPage, setPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
     const [meta, setMeta] = useState({})
+    const [categories, setCategories] = useState([]);
+    const [authors, setAuthors] = useState([]);
+    const [rating, setRating] = useState([]);
 
-    const [sortMode, setSortMode] = useState([
-        {mode: 'onsale', name:"On sale" },
-        {mode: 'popularity', name:"Popularity" },
-        {mode: 'asc_price', name:"Ascending price" },
-        {mode: 'desc_price', name:"Descending price" }
+    const sortMode = useRef([
+        {mode: 'onsale', name:"Sort by on sale" },
+        {mode: 'popularity', name:"Sort by popularity" },
+        {mode: 'asc_price', name:"Sort by price: low to high" },
+        {mode: 'desc_price', name:"Sort by price: high to low" }
+    ]);
+
+    const perPageMode = useRef([
+        {mode: 5, name:"Show 5" },
+        {mode: 15, name:"Show 15" },
+        {mode: 20, name:"Show 20" },
+        {mode: 25, name:"Show 25" }
+    ]);
+
+    const starFilter = useRef([
+        {id: 1, name:"1 star" },
+        {id: 2, name:"2 star" },
+        {id: 3, name:"3 star" },
+        {id: 4, name:"4 star" },
+        {id: 5, name:"5 star" }
     ]);
 
     useEffect(() => {
+        axios.get("/api/filters")
+            .then(response => {
+                setCategories(response.data.categories)
+                setAuthors(response.data.authors)
+            })
+    }, [])
+
+    useEffect(() => {
         fetchData()
-    }, [page, sortBy])
+    }, [page, sortBy, perPage, filter])
 
     function fetchData() {
         const config = {
             params: {
                 per_page: perPage,
                 page: page,
-                sort_by: sortBy
+                sort_by: sortBy,
+                filter_by: filter.filterBy,
+                filter_id: filter.filterId
             }
         }
         axios.get("/api/shop", config)
@@ -52,6 +75,18 @@ export default function Shop (props) {
         setSortBy(event.target.value);
     }
 
+    function changePerPage(event) {
+        setPerPage(event.target.value);
+    }
+
+    function changeFilter(filter, id) {
+        console.log(filter, id)
+        setFilter({
+            filterBy: filter,
+            filterId: id
+        })
+    }
+
     return (
         <Layout>
             <Helmet>
@@ -61,16 +96,23 @@ export default function Shop (props) {
                 <div className="container">
                     <div className="row">
                         <aside className="col-md-3">
-                            <div className="card">
-                                <FilterGroup/>
-                            </div>
+                            <Accordion defaultActiveKey="category_id">
+                                <FilterGroup title="Category" eventKey="category_id" data={categories} onChange={changeFilter} />
+                                <FilterGroup title="Author" eventKey="author_id" data={authors} onChange={changeFilter} />
+                                {/*<FilterGroup title="Star" eventKey="star" data={starFilter.current} onChange={changeFilter} />*/}
+                            </Accordion>
                         </aside>
                         <main className="col-md-9">
                             <header className="border-bottom mb-4 pb-3">
                                 <div className="form-inline">
                                     <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} book`} </span>
-                                    <select className="mr-2 form-control" onChange={changeSortBy}>
-                                        {sortMode.map((mode) => (
+                                    <select className="mr-2 form-control" onChange={changeSortBy} defaultValue={sortBy}>
+                                        {sortMode.current.map((mode) => (
+                                            <option key={mode.mode} value={mode.mode}>{mode.name}</option>
+                                        ))}
+                                    </select>
+                                    <select className="mr-2 form-control" onChange={changePerPage} defaultValue={perPage}>
+                                        {perPageMode.current.map((mode) => (
                                             <option key={mode.mode} value={mode.mode}>{mode.name}</option>
                                         ))}
                                     </select>
