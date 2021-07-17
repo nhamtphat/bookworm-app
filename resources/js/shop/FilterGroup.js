@@ -12,8 +12,8 @@ function FilterGroup (props) {
             <Accordion.Collapse eventKey={props.eventKey}>
                 <Card.Body>
                     {props.data.map((item) => (
-                        <label className="custom-control custom-radio" key={item.id}>
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" value={item.id} onChange={() => props.onChange(props.eventKey, item.id)}/>
+                        <label className="custom-control custom-radio" key={item.value}>
+                            <input type="radio" name="myfilter_radio" className="custom-control-input" value={item.value} onChange={() => props.onChange(props.eventKey, item.value)}/>
                             <div className="custom-control-label">{item.name}</div>
                         </label>
                     ))}

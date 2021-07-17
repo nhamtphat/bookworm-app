@@ -11,7 +11,7 @@ import {Accordion} from "react-bootstrap";
 export default function Shop (props) {
     const [view, setView] = useState("grid")
     const [sortBy, setSortBy] = useState('on_sale')
-    const [filter, setFilter] = useState({filterBy: "", filterId: 0})
+    const [filter, setFilter] = useState({filterBy: "", filterValue: 0})
     const [perPage, setPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
@@ -35,11 +35,11 @@ export default function Shop (props) {
     ]);
 
     const starFilter = useRef([
-        {id: 1, name:"1 star" },
-        {id: 2, name:"2 star" },
-        {id: 3, name:"3 star" },
-        {id: 4, name:"4 star" },
-        {id: 5, name:"5 star" }
+        {value: 1, name:"1 star" },
+        {value: 2, name:"2 star" },
+        {value: 3, name:"3 star" },
+        {value: 4, name:"4 star" },
+        {value: 5, name:"5 star" }
     ]);
 
     useEffect(() => {
@@ -61,7 +61,7 @@ export default function Shop (props) {
                 page: page,
                 sort_by: sortBy,
                 filter_by: filter.filterBy,
-                filter_id: filter.filterId
+                filter_value: filter.filterValue
             }
         }
         axios.get("/api/shop", config)
@@ -79,11 +79,10 @@ export default function Shop (props) {
         setPerPage(event.target.value);
     }
 
-    function changeFilter(filter, id) {
-        console.log(filter, id)
+    function changeFilter(filter, value) {
         setFilter({
             filterBy: filter,
-            filterId: id
+            filterValue: value
         })
     }
 
@@ -99,7 +98,7 @@ export default function Shop (props) {
                             <Accordion defaultActiveKey="category_id">
                                 <FilterGroup title="Category" eventKey="category_id" data={categories} onChange={changeFilter} />
                                 <FilterGroup title="Author" eventKey="author_id" data={authors} onChange={changeFilter} />
-                                {/*<FilterGroup title="Star" eventKey="star" data={starFilter.current} onChange={changeFilter} />*/}
+                                <FilterGroup title="Star" eventKey="star" data={starFilter.current} onChange={changeFilter} />
                             </Accordion>
                         </aside>
                         <main className="col-md-9">
