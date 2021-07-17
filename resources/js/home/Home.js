@@ -14,7 +14,7 @@ export default class Home extends Component {
         popular_books: [],
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get("/api/homepage")
             .then(response => {
                 this.setState({

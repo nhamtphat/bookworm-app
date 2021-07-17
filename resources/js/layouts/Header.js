@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import logo from "../../assets/images/bookworm_logo.svg";
 import {Container, Nav, Navbar} from "react-bootstrap";
+import {connect} from "react-redux";
 
 class Header extends Component {
     render() {
@@ -12,10 +13,10 @@ class Header extends Component {
                         <Container>
                             <Navbar.Brand className="py-2">
                                 <Link to="/">
-                                    <img src={logo} className="logo" />
+                                    <img src={logo} className="logo"/>
                                 </Link>
                             </Navbar.Brand>
-                            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="ml-auto">
                                     <Nav.Item>
@@ -28,7 +29,7 @@ class Header extends Component {
                                         <Link to="/about" className="nav-link">About</Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Link to="/cart" className="nav-link">Cart</Link>
+                                        <Link to="/cart" className="nav-link">Cart ({this.props.numberCart})</Link>
                                     </Nav.Item>
                                 </Nav>
                             </Navbar.Collapse>
@@ -40,4 +41,10 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        numberCart: state._cartReducers.numberCart
+    }
+}
+
+export default connect(mapStateToProps, null)(Header)
