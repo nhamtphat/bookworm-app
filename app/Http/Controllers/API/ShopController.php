@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\Discount;
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Resources\BookCollection;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
@@ -23,10 +23,20 @@ class ShopController extends Controller
 
         $query = $this->bookModel->selectFinalPrice();
 
-        if ($request->get('filter_by') != "" && $request->get('filter_id') != "") {
-            $filter_by = $request->get('filter_by');
-            $filter_id = $request->get('filter_id');
-            $query = $query->where($filter_by, $filter_id);
+
+        if ($request->get('filter_by') != "" && $request->get('filter_value') != "") {
+            if($request->get('filter_by') == 'star') {
+                $star = $request->get('filter_value');
+                $book_query = Book::select('books.id')
+                    ->join('reviews', 'books.id', '=', 'reviews.book_id')
+                    ->groupBy('books.id')
+                    ->havingRaw('round(AVG(cast(rating_start as integer))) >= ?', [$star]);
+                $query = $query->whereIn('id', $book_query);
+            } else {
+                $filter_by = $request->get('filter_by');
+                $filter_value = $request->get('filter_value');
+                $query = $query->where($filter_by, $filter_value);
+            }
         }
 
         switch ($request->get('sort_by')) {

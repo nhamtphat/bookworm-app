@@ -19,14 +19,14 @@ class FilterController extends Controller
     {
         $authors = $this->authorModel->get(['id', 'author_name'])->map(function ($author) {
             $obj = new \stdClass();
-            $obj->id = $author->id;
+            $obj->value = $author->id;
             $obj->name = $author->author_name;
             return $obj;
         });
 
         $categories = $this->categoryModel->get(['id', 'category_name'])->map(function ($category){
             $obj = new \stdClass();
-            $obj->id = $category->id;
+            $obj->value = $category->id;
             $obj->name = $category->category_name;
             return $obj;
         });
