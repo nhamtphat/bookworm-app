@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Layout from "../layouts";
 import BookGridFigure from "../common/BookGridFigure";
 import BookListFigure from "../common/BookListFigure";
-import CustomPagination from "../common/CustomPagination"
+import Pagination from "../common/Pagination"
 import FilterGroup from "./FilterGroup";
 import axios from "axios";
 import {Helmet} from "react-helmet";
@@ -11,14 +11,12 @@ import {Accordion} from "react-bootstrap";
 export default function Shop (props) {
     const [view, setView] = useState("grid")
     const [sortBy, setSortBy] = useState('on_sale')
-    const [filter, setFilter] = useState({filterBy: "", filterValue: 0})
+    const [filter, setFilter] = useState({filterBy: "", filterValue: 0, filterByTitle: "", filterValueName: ""})
+    const [allFilters, setAllFilters] = useState([])
     const [perPage, setPerPage] = useState(20)
     const [page, setPage] = useState(1)
     const [data, setData] = useState([])
     const [meta, setMeta] = useState({})
-    const [categories, setCategories] = useState([]);
-    const [authors, setAuthors] = useState([]);
-    const [rating, setRating] = useState([]);
 
     const sortMode = useRef([
         {mode: 'onsale', name:"Sort by on sale" },
@@ -34,19 +32,10 @@ export default function Shop (props) {
         {mode: 25, name:"Show 25" }
     ]);
 
-    const starFilter = useRef([
-        {value: 1, name:"1 star" },
-        {value: 2, name:"2 star" },
-        {value: 3, name:"3 star" },
-        {value: 4, name:"4 star" },
-        {value: 5, name:"5 star" }
-    ]);
-
     useEffect(() => {
         axios.get("/api/filters")
             .then(response => {
-                setCategories(response.data.categories)
-                setAuthors(response.data.authors)
+                setAllFilters(response.data)
             })
     }, [])
 
@@ -79,10 +68,12 @@ export default function Shop (props) {
         setPerPage(event.target.value);
     }
 
-    function changeFilter(filter, value) {
+    function changeFilter(filter, filterData) {
         setFilter({
-            filterBy: filter,
-            filterValue: value
+            filterBy: filter.query_key,
+            filterValue: filterData.value,
+            filterByTitle: filter.title,
+            filterValueName: filterData.name
         })
     }
 
@@ -91,14 +82,24 @@ export default function Shop (props) {
             <Helmet>
                 <title>Bookworm Shop</title>
             </Helmet>
-            <section className="section-content bg padding-y">
+            <section className="section-content bg padding-y pt-0">
                 <div className="container">
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <h2 className="border-bottom p-3">Books
+                                {(filter.filterByTitle != "")
+                                    ? <span className="sub-text ml-2">(Filterd by {filter.filterByTitle} #{filter.filterValueName})</span>
+                                    : ""
+                                }
+                            </h2>
+                        </div>
+                    </div>
                     <div className="row">
                         <aside className="col-md-3">
                             <Accordion defaultActiveKey="category_id">
-                                <FilterGroup title="Category" eventKey="category_id" data={categories} onChange={changeFilter} />
-                                <FilterGroup title="Author" eventKey="author_id" data={authors} onChange={changeFilter} />
-                                <FilterGroup title="Star" eventKey="star" data={starFilter.current} onChange={changeFilter} />
+                                {allFilters.map((filter) => (
+                                    <FilterGroup key={filter.query_key} filter={filter} onChange={changeFilter} />
+                                ))}
                             </Accordion>
                         </aside>
                         <main className="col-md-9">
@@ -142,7 +143,7 @@ export default function Shop (props) {
                                 ))}
                             </div>
 
-                            <CustomPagination page_count={meta.last_page} current_page={page} setPage={setPage}/>
+                            <Pagination className="text-center" page_count={meta.last_page} current_page={page} setPage={setPage}/>
                         </main>
                     </div>
                 </div>
