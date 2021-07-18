@@ -9,9 +9,26 @@ function Cart(props) {
         return Number(price * quantity).toLocaleString('en-US');
     }
 
+    function TotalCart() {
+        let TotalCart = 0;
+        props.cart.forEach(item => {
+            TotalCart += item.quantity * item.product.final_price;
+        })
+
+        TotalCart = Math.round(TotalCart * 100) / 100
+        return TotalCart;
+    }
+
     return (
         <Layout>
-            <section className="section-content bg padding-y">
+            <section className="section-content bg padding-y pt-0">
+                <div className="container">
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <h3 className="border-bottom p-3">Your cart: {props.cart.length} items</h3>
+                        </div>
+                    </div>
+                </div>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
@@ -69,7 +86,7 @@ function Cart(props) {
                                             </td>
                                             <td>
                                                 <div className="price-wrap">
-                                                    {/*<var className="price">${TotalPrice(item.product.final_price, item.quantity)}</var>*/}
+                                                    <var className="price">${TotalPrice(item.product.final_price, item.quantity)}</var>
                                                 </div>
                                             </td>
                                         </tr>
@@ -94,7 +111,7 @@ function Cart(props) {
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-12">
-                                            <div className="font-weight-bold text-center text-lg">$99.97</div>
+                                            <div className="font-weight-bold text-center text-lg">${TotalCart()}</div>
                                             <button className="btn btn-block btn-primary mt-3">Place Order</button>
                                         </div>
                                     </div>

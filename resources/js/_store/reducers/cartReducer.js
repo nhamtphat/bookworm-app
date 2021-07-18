@@ -57,27 +57,35 @@ export default function cartReducer(state = initProduct, action) {
             }
         case INCREASE_QUANTITY:
             p_product = action.payload
-            state.numberCart ++
-            state.Carts.map((item, key) => {
-                if (item.product.id === p_product.id) {
-                    item.quantity ++
-                }
-            });
-
             return {
                 ...state,
+                numberCart: state.numberCart + 1,
+                Carts:  state.Carts.map((item) => {
+                    if (item.product.id === p_product.id) {
+                        return {
+                            ...item,
+                            quantity: item.quantity + 1
+                        }
+                    } else {
+                        return item;
+                    }
+                })
             }
         case DECREASE_QUANTITY:
             p_product = action.payload
-            state.numberCart --
-            state.Carts.map((item, key) => {
-                if (item.product.id === p_product.id) {
-                    item.quantity --
-                }
-            });
-
             return {
-                ...state
+                ...state,
+                numberCart: state.numberCart - 1,
+                Carts:  state.Carts.map((item) => {
+                    if (item.product.id === p_product.id) {
+                        return {
+                            ...item,
+                            quantity: item.quantity - 1
+                        }
+                    } else {
+                        return item;
+                    }
+                })
             }
         case DELETE_CART:
             let quantity_ = state.Carts[action.payload].quantity;
