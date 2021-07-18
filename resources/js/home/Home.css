@@ -1,0 +1,12 @@
+.slick-arrow:before {
+    font-size: 1.5rem;
+    color: #000;
+}
+
+.slick-prev {
+    left: -20px;
+}
+
+.slick-next {
+    right: -23px;
+}
