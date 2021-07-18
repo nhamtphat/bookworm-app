@@ -16,7 +16,7 @@ class BookListFigure extends Component {
                     <div className="col-md-6">
                         <div className="info-main">
                             <Link to={'products/' + this.props.book.id} className="h5 title"> {this.props.book.book_title} </Link>
-
+                            <div className="text-danger">{this.props.book.author_name}</div>
                             <p> {this.props.book.book_summary} </p>
                         </div>
                     </div>

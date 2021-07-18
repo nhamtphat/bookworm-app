@@ -21,3 +21,12 @@ p:last-child{ margin-bottom:0  }
 /* ==================  title helpers ================ */
 .rtl{direction:rtl;}
 .ltr{direction:ltr;}
+
+
+
+/* ==================  typo helpers ================ */
+.sub-text{
+	font-size:1rem;
+	font-weight: normal;
+	color:$secondary
+}

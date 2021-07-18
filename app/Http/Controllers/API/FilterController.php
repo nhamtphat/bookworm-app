@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ShopFilter;
+use App\Helpers\ShopFilterData;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
@@ -15,25 +16,27 @@ class FilterController extends Controller
         $this->authorModel = $authorModel;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
-        $authors = $this->authorModel->get(['id', 'author_name'])->map(function ($author) {
-            $obj = new \stdClass();
-            $obj->value = $author->id;
-            $obj->name = $author->author_name;
-            return $obj;
+        $authors = $this->authorModel->orderBy('author_name')->get(['id', 'author_name'])->map(function ($author) {
+            return new ShopFilterData($author->author_name, $author->id);
         });
+        $author_filter = new ShopFilter("Author", "author_id", $authors);
 
-        $categories = $this->categoryModel->get(['id', 'category_name'])->map(function ($category){
-            $obj = new \stdClass();
-            $obj->value = $category->id;
-            $obj->name = $category->category_name;
-            return $obj;
+        $categories = $this->categoryModel->orderBy('category_name')->get(['id', 'category_name'])->map(function ($category) {
+            return new ShopFilterData($category->category_name, $category->id);
         });
+        $category_filter = new ShopFilter("Category", "category_id", $categories);
+
+        $ratings = collect([1, 2, 3, 4, 5])->map(function ($star) {
+            return new ShopFilterData("$star star", $star);
+        });
+        $rating_filter = new ShopFilter("Rating", "star", $ratings);
 
         return [
-            'authors' => $authors,
-            'categories' => $categories
+            $category_filter,
+            $author_filter,
+            $rating_filter
         ];
     }
 }
