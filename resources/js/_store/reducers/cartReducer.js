@@ -73,6 +73,9 @@ export default function cartReducer(state = initProduct, action) {
             }
         case DECREASE_QUANTITY:
             p_product = action.payload
+            let quantity = state.Carts.find((item) => { return p_product.id == item.product.id }).quantity;
+            if(quantity == 1) return state;
+
             return {
                 ...state,
                 numberCart: state.numberCart - 1,

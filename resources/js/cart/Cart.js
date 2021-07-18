@@ -43,8 +43,8 @@ function Cart(props) {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {props.cart.map(item => (
-                                        <tr className="border-top" key={item.product.id}>
+                                    {props.cart.map((item, key) => (
+                                        <tr className="border-top" key={key}>
                                             <td>
                                                 <figure className="itemside align-items-center">
                                                     <div className="aside">
@@ -53,14 +53,14 @@ function Cart(props) {
                                                     <figcaption className="info">
                                                         <a href="#"
                                                            className="title text-dark">{item.product.book_title}</a>
-                                                        <p className="text-muted small">Matrix: 25 Mpx <br/> Brand: Canon
-                                                        </p>
+                                                        <p className="text-muted small">Author: {item.product.author_name}</p>
                                                     </figcaption>
                                                 </figure>
                                             </td>
                                             <td>
                                                 <div className="price-wrap">
                                                     <var className="price">${item.product.final_price}</var>
+                                                    <del className="sub-text">${item.product.book_price}</del>
                                                 </div>
                                             </td>
                                             <td>
