@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import Layout from "../layouts";
 
@@ -5,12 +6,14 @@ class About extends Component {
     render() {
         return (
             <Layout>
-                <section className="section-pagetop bg-primary">
+                <section className="section-content bg padding-y pt-0">
                     <div className="container">
-                        <h2 className="title-page text-white">About Us</h2>
+                        <div className="row mb-5">
+                            <div className="col-12">
+                                <h3 className="border-bottom p-3">About Us</h3>
+                            </div>
+                        </div>
                     </div>
-                </section>
-                <section className="section-content padding-y">
                     <div className="container">
                         <div className="col-8 mx-auto">
                             <div className="row">

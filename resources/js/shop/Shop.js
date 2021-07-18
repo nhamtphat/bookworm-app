@@ -86,12 +86,12 @@ export default function Shop (props) {
                 <div className="container">
                     <div className="row mb-5">
                         <div className="col-12">
-                            <h2 className="border-bottom p-3">Books
+                            <h3 className="border-bottom p-3">Books
                                 {(filter.filterByTitle != "")
                                     ? <span className="sub-text ml-2">(Filterd by {filter.filterByTitle} #{filter.filterValueName})</span>
                                     : ""
                                 }
-                            </h2>
+                            </h3>
                         </div>
                     </div>
                     <div className="row">

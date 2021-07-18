@@ -29,7 +29,14 @@ function Product(props) {
             <Helmet>
                 <title>{`${book.book_title} - Bookworm`} </title>
             </Helmet>
-            <section className="section-content bg padding-y">
+            <section className="section-content bg padding-y pt-0">
+                <div className="container">
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <h3 className="border-bottom p-3">{book.category_name}</h3>
+                        </div>
+                    </div>
+                </div>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
