@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import Layout from '../layouts'
-import product_image from "../../assets/images/items/7.jpg"
 import {connect} from "react-redux";
-import {DecreaseQuantity, DeleteCart, IncreaseQuantity} from "../_store/actions";
+import {DecreaseQuantity, IncreaseQuantity} from "../_store/actions";
+import {Link} from "react-router-dom"
+import EmptyCartAlert from "./EmptyCartAlert";
+import {Helmet} from "react-helmet";
 
 function Cart(props) {
     function TotalPrice(price, quantity) {
@@ -21,6 +23,9 @@ function Cart(props) {
 
     return (
         <Layout>
+            <Helmet>
+                <title>{`Your cart - Bookworm`} </title>
+            </Helmet>
             <section className="section-content bg padding-y pt-0">
                 <div className="container">
                     <div className="row mb-5">
@@ -43,19 +48,26 @@ function Cart(props) {
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {(props.cart.length == 0)
+                                        ? <EmptyCartAlert />
+                                        : ""
+                                    }
+
                                     {props.cart.map((item, key) => (
                                         <tr className="border-top" key={key}>
                                             <td>
-                                                <figure className="itemside align-items-center">
-                                                    <div className="aside">
-                                                        <img src={item.product.book_cover_photo} className="img-sm"/>
-                                                    </div>
-                                                    <figcaption className="info">
-                                                        <a href="#"
-                                                           className="title text-dark">{item.product.book_title}</a>
-                                                        <p className="text-muted small">Author: {item.product.author_name}</p>
-                                                    </figcaption>
-                                                </figure>
+                                                <Link to={"/products/" + item.product.id}>
+                                                    <figure className="itemside align-items-center">
+                                                        <div className="aside">
+                                                            <img src={item.product.book_cover_photo} className="img-sm"/>
+                                                        </div>
+                                                        <figcaption className="info">
+                                                            <a href="#"
+                                                               className="title text-dark">{item.product.book_title}</a>
+                                                            <p className="text-muted small">Author: {item.product.author_name}</p>
+                                                        </figcaption>
+                                                    </figure>
+                                                </Link>
                                             </td>
                                             <td>
                                                 <div className="price-wrap">
@@ -131,4 +143,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {IncreaseQuantity, DecreaseQuantity, DeleteCart})(Cart)
+export default connect(mapStateToProps, {IncreaseQuantity, DecreaseQuantity})(Cart)
