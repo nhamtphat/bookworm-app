@@ -18,6 +18,7 @@ class HomepageController extends Controller
     {
         $onsale_books = BookResource::collection(
             $this->bookModel
+                ->with('author', 'category', 'availableDiscounts')
                 ->selectSubPrice()
                 ->orderByDesc('sub_price')
                 ->limit(10)
@@ -26,7 +27,7 @@ class HomepageController extends Controller
 
         $recommended_books = BookResource::collection(
             $this->bookModel
-                ->has('reviews')
+                ->with('author', 'category', 'availableDiscounts')
                 ->selectAvgStar()
                 ->selectFinalPrice()
                 ->orderByDesc('avg_star')
@@ -37,6 +38,7 @@ class HomepageController extends Controller
 
         $popular_books = BookResource::collection(
             $this->bookModel
+                ->with('author', 'category', 'availableDiscounts')
                 ->withCount('reviews')
                 ->selectFinalPrice()
                 ->orderByDesc('reviews_count')
