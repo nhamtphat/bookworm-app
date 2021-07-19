@@ -5,12 +5,14 @@ class BookGridFigure extends Component {
     render() {
         return (
             <figure className="card card-product-grid">
-                <div className="img-wrap">
-                    <span className="topbar">
-                        <span className="badge badge-success"> NEW </span>
-                    </span>
-                    <img src={this.props.book.book_cover_photo}/>
-                </div>
+                <Link to={"/products/" + this.props.book.id}>
+                    <div className="img-wrap">
+                        <span className="topbar">
+                            <span className="badge badge-success"> NEW </span>
+                        </span>
+                            <img src={this.props.book.book_cover_photo}/>
+                    </div>
+                </Link>
                 <figcaption className="info-wrap border-top">
                     <Link to={"/products/" + this.props.book.id} className="title font-weight-bold">{this.props.book.book_title}</Link>
                     <div className="text-danger">{this.props.book.author_name}</div>
