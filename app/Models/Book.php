@@ -45,8 +45,12 @@ class Book extends Model
     public function scopeSelectAvgStar($query)
     {
         return $query->addSelect([
-            'avg_star' => Review::select(DB::raw('sum(cast(rating_start as integer)) / count(*)'))
-                ->whereColumn('book_id', 'books.id')
+            'avg_star' => DB::table('books as sub_books')->selectRaw('COALESCE(avg(cast(rating_start as integer)), 0)')
+                ->whereColumn('books.id', '=', 'sub_books.id')
+                ->leftJoin('reviews', function ($join) {
+                    $join->on('sub_books.id', '=', 'reviews.book_id');
+                })
+                ->limit(1)
         ]);
     }
 
@@ -66,12 +70,7 @@ class Book extends Model
             'final_price' => DB::table('books as sub_books')->selectRaw('COALESCE(discounts.discount_price, books.book_price)')
                 ->whereColumn('books.id', '=', 'sub_books.id')
                 ->leftJoin('discounts', function ($join) {
-                    $join->on('sub_books.id', '=', 'discounts.book_id')
-                        ->whereDate('discount_start_date', '<', now())
-                        ->where(function ($query) {
-                            $query->whereDate('discount_end_date', '>', now())
-                                ->orWhereNull('discount_end_date');
-                        });
+                    (new Discount)->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
                 })
                 ->limit(1)
         ]);
@@ -79,19 +78,13 @@ class Book extends Model
 
     public function scopeSelectSubPrice($query)
     {
-        return $query
-            ->addSelect([
-                'sub_price' => DB::table('books as sub_books')->selectRaw('COALESCE(books.book_price - discounts.discount_price, 0)')
-                    ->whereColumn('books.id', '=', 'sub_books.id')
-                    ->leftJoin('discounts', function ($join) {
-                        $join->on('sub_books.id', '=', 'discounts.book_id')
-                            ->whereDate('discount_start_date', '<', now())
-                            ->where(function ($query) {
-                                $query->whereDate('discount_end_date', '>', now())
-                                    ->orWhereNull('discount_end_date');
-                            });
-                    })
-                    ->limit(1)
-            ]);
+        return $query->addSelect([
+            'sub_price' => DB::table('books as sub_books')->selectRaw('COALESCE(books.book_price - discounts.discount_price, 0)')
+                ->whereColumn('books.id', '=', 'sub_books.id')
+                ->leftJoin('discounts', function ($join) {
+                    (new Discount)->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
+                })
+                ->limit(1)
+        ]);
     }
 }
