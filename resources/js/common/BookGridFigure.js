@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import product_image from "../../assets/images/items/7.jpg";
 import {Link} from "react-router-dom";
 
 class BookGridFigure extends Component {
@@ -10,7 +9,7 @@ class BookGridFigure extends Component {
                     <span className="topbar">
                         <span className="badge badge-success"> NEW </span>
                     </span>
-                    <img src={product_image}/>
+                    <img src={this.props.book.book_cover_photo}/>
                 </div>
                 <figcaption className="info-wrap border-top">
                     <Link to={"/products/" + this.props.book.id} className="title font-weight-bold">{this.props.book.book_title}</Link>

@@ -48,7 +48,7 @@ function Cart(props) {
                                             <td>
                                                 <figure className="itemside align-items-center">
                                                     <div className="aside">
-                                                        <img src={product_image} className="img-sm"/>
+                                                        <img src={item.product.book_cover_photo} className="img-sm"/>
                                                     </div>
                                                     <figcaption className="info">
                                                         <a href="#"

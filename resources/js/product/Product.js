@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Layout from "../layouts";
 import ReviewSection from "./ReviewSection";
-import product_image from '../../assets/images/items/12.jpg'
 import stars_active from '../../assets/images/icons/stars-active.svg'
 import stars_disable from '../../assets/images/icons/stars-disable.svg'
 import axios from "axios";
@@ -20,8 +19,10 @@ function Product(props) {
             })
     }, [])
 
-    function updateQuantity(number) {
-        setQuantity(quantity + number)
+    function updateQuantity(new_value) {
+        if(new_value > 8) return
+        if(new_value < 1) return
+        setQuantity(new_value)
     }
 
     return (
@@ -46,7 +47,7 @@ function Product(props) {
                                         <aside className="col-md-4">
                                             <article className="gallery-wrap">
                                                 <div className="card img-wrap">
-                                                    <a href="#"> <img src={product_image}/></a>
+                                                    <a href="#"> <img src={book.book_cover_photo}/></a>
                                                 </div>
                                             </article>
                                         </aside>
@@ -95,14 +96,14 @@ function Product(props) {
                                                     <div className="input-group-append">
                                                         <button className="btn btn-light" type="button"
                                                                 id="button-minus"
-                                                                onClick={() => updateQuantity(-1)}> −
+                                                                onClick={() => updateQuantity(quantity-1)}> −
                                                         </button>
                                                     </div>
                                                     <input type="text" className="form-control" value={quantity} readOnly={true} />
                                                     <div className="input-group-prepend">
                                                         <button className="btn btn-light" type="button"
                                                                 id="button-plus"
-                                                                onClick={() => updateQuantity(1)}> +
+                                                                onClick={() => updateQuantity(quantity+1)}> +
                                                         </button>
                                                     </div>
                                                 </div>
