@@ -29,7 +29,7 @@ function Header (props) {
                                     <NavLink to="/about" className="nav-link" activeClassName="active">About</NavLink>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <NavLink to="/cart" className="nav-link" activeClassName="active">Cart ({props.cart.length})</NavLink>
+                                    <NavLink to="/cart" className="nav-link" activeClassName="active">Cart ({props.numberCart})</NavLink>
                                 </Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
@@ -44,7 +44,7 @@ function Header (props) {
 
 const mapStateToProps = state => {
     return {
-        cart: state._cartReducers.Carts
+        numberCart: state._cartReducers.numberCart
     }
 }
 
