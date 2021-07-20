@@ -24,10 +24,8 @@ class BookListFigure extends Component {
                             <div className="price-wrap">
                                 <span className="price h5"> {this.props.book.final_price} </span>
                                 {(this.props.book.final_price != this.props.book.book_price)
-                                    ?
-                                    <del className="price-old">${this.props.book.book_price}</del>
-                                    :
-                                    <></>
+                                    ? <del className="price-old">${this.props.book.book_price}</del>
+                                    : ""
                                 }
                             </div>
                             <p className="text-success">Free shipping</p>
@@ -37,10 +35,6 @@ class BookListFigure extends Component {
                                     <i className="fa fa-eye"></i>
                                     <span className="text">View product</span>
                                 </Link>
-                                <a href="#" className="btn btn-light btn-block">
-                                    <i className="fa fa-shopping-bag"></i>
-                                    <span className="text">Add to cart</span>
-                                </a>
                             </p>
                         </div>
                     </aside>

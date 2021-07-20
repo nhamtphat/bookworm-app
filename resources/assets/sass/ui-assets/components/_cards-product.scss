@@ -18,6 +18,12 @@ a[class*='card']{
         &:hover{ color:$primary; }
     }
 
+    .author{
+        height: $font-size-base*1.5;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
     .badge{  top: 10px; left: 10px; position: absolute;  }
 
     p{margin-bottom: 0;}
