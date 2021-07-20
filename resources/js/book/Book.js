@@ -25,6 +25,11 @@ function Book(props) {
         setQuantity(new_value)
     }
 
+    function addToCart() {
+        props.AddCart({product: book, quantity})
+        setQuantity(1)
+    }
+
     return (
         <Layout>
             <Helmet>
@@ -111,8 +116,7 @@ function Book(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button className="btn btn-block btn-primary"
-                                                    onClick={() => props.AddCart({product: book, quantity})}>Add to cart
+                                            <button className="btn btn-block btn-primary" onClick={() => addToCart()}>Add to cart
                                             </button>
                                         </div>
                                     </div>

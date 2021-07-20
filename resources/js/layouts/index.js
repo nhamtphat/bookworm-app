@@ -11,6 +11,8 @@ import "../../assets/fonts/material-icons/css/materialdesignicons.css";
 import "../../assets/sass/ui.scss";
 import "../../assets/sass/responsive.scss";
 import "../../assets/sass/_variables-custom.scss";
+// Package
+import 'react-toastify/dist/ReactToastify.css';
 
 class Layout extends Component {
     constructor(props) {

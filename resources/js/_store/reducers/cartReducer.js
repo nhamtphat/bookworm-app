@@ -1,8 +1,5 @@
-import {
-    ADD_CART,
-    DECREASE_QUANTITY,
-    INCREASE_QUANTITY
-} from '../actions';
+import {ADD_CART, DECREASE_QUANTITY, EMPTY_CART, INCREASE_QUANTITY} from '../actions';
+import {toast} from "react-toastify";
 
 const initProduct = {
     numberCart: 0,
@@ -31,7 +28,7 @@ export default function cartReducer(state = initProduct, action) {
                 let check = false;
                 state.Carts.map((item, key) => {
                     if (item.product.id === p_product.id) {
-                        if((state.Carts[key].quantity + p_quantity) > MAX_QUANTITY) {
+                        if ((state.Carts[key].quantity + p_quantity) > MAX_QUANTITY) {
                             p_quantity = MAX_QUANTITY - state.Carts[key].quantity
                         }
                         state.Carts[key].quantity += p_quantity;
@@ -109,6 +106,10 @@ export default function cartReducer(state = initProduct, action) {
                         return item;
                     }
                 })
+            }
+        case EMPTY_CART:
+            return {
+                ...initProduct
             }
         default:
             return state;
