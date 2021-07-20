@@ -24,7 +24,7 @@ class ShopController extends Controller
     {
         $per_page = $request->per_page ?? 20;
 
-        $query = $this->bookModel->with('author', 'category', 'availableDiscounts')->selectFinalPrice();
+        $query = $this->bookModel->with('author', 'category', 'availableDiscounts', 'reviews')->selectFinalPrice();
 
 
         if ($request->get('filter_by') != "" && $request->get('filter_value') != "") {
