@@ -33,7 +33,7 @@ export default function Shop (props) {
     ]);
 
     useEffect(() => {
-        axios.get("/api/filters")
+        axios.get("/api/shop/filters")
             .then(response => {
                 setAllFilters(response.data)
             })
