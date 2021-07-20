@@ -8,7 +8,7 @@ import {Helmet} from "react-helmet";
 import {AddCart} from "../_store/actions";
 import {connect} from "react-redux";
 
-function Product(props) {
+function Book(props) {
     const [book, setBook] = useState({});
     const [quantity, setQuantity] = useState(1);
 
@@ -28,7 +28,7 @@ function Product(props) {
     return (
         <Layout>
             <Helmet>
-                <title>{`${book.book_title} - Bookworm`} </title>
+                <title>{book.book_title + " - Bookworm"} </title>
             </Helmet>
             <section className="section-content bg padding-y pt-0">
                 <div className="container">
@@ -83,8 +83,11 @@ function Product(props) {
                             <div className="card">
                                 <div className="card-header">
                                     <div className="">
-                                        <del className="text-gray-light">${book.book_price}</del>
-                                        <var className="price h4 ml-2">${book.final_price}</var> <br/>
+                                        {(book.book_price !== book.final_price)
+                                            ? <del className="text-gray-light">${book.book_price}</del>
+                                            : ""
+                                        }
+                                        <var className="price h4 ml-2">${book.final_price}</var>
                                     </div>
                                 </div>
                                 <div className="card-body">
@@ -124,11 +127,6 @@ function Product(props) {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        _products: state._cartReducers,
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -136,5 +134,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Product)
-
+export default connect(null, mapDispatchToProps)(Book)

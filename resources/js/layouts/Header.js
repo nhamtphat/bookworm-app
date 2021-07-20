@@ -4,7 +4,6 @@ import logo from "../../assets/images/bookworm_logo.svg";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {connect} from "react-redux";
 import {ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 function Header (props) {
     return (
@@ -30,7 +29,7 @@ function Header (props) {
                                     <NavLink to="/about" className="nav-link" activeClassName="active">About</NavLink>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <NavLink to="/cart" className="nav-link" activeClassName="active">Cart ({props.numberCart})</NavLink>
+                                    <NavLink to="/cart" className="nav-link" activeClassName="active">Cart ({props.cart.length})</NavLink>
                                 </Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
@@ -45,7 +44,7 @@ function Header (props) {
 
 const mapStateToProps = state => {
     return {
-        numberCart: state._cartReducers.numberCart
+        cart: state._cartReducers.Carts
     }
 }
 

@@ -105,7 +105,7 @@ export default function Shop (props) {
                         <main className="col-md-9">
                             <header className="border-bottom mb-4 pb-3">
                                 <div className="form-inline">
-                                    <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} book`} </span>
+                                    <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} books`} </span>
                                     <select className="mr-2 form-control" onChange={changeSortBy} defaultValue={sortBy}>
                                         {sortMode.current.map((mode) => (
                                             <option key={mode.mode} value={mode.mode}>{mode.name}</option>

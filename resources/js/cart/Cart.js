@@ -56,14 +56,13 @@ function Cart(props) {
                                     {props.cart.map((item, key) => (
                                         <tr className="border-top" key={key}>
                                             <td>
-                                                <Link to={"/products/" + item.product.id}>
+                                                <Link to={"/books/" + item.product.id} target='_blank'>
                                                     <figure className="itemside align-items-center">
                                                         <div className="aside">
                                                             <img src={item.product.book_cover_photo} className="img-sm"/>
                                                         </div>
                                                         <figcaption className="info">
-                                                            <a href="#"
-                                                               className="title text-dark">{item.product.book_title}</a>
+                                                            <span className="title text-dark">{item.product.book_title}</span>
                                                             <p className="text-muted small">Author: {item.product.author_name}</p>
                                                         </figcaption>
                                                     </figure>
