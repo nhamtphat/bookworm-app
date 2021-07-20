@@ -42,6 +42,12 @@ class Book extends Model
         return $this->final_price ?? $this->discount_price ?? $this->availableDiscounts->first()->discount_price ?? $this->book_price;
     }
 
+    public function getAvgStarAttribute()
+    {
+        $avg = ($this->avg_star ?? $this->reviews->avg('rating_start'));
+        return round($avg, 2);
+    }
+
     public function scopeSelectAvgStar($query)
     {
         return $query->addSelect([

@@ -34,7 +34,7 @@ function Product(props) {
                 <div className="container">
                     <div className="row mb-5">
                         <div className="col-12">
-                            <h3 className="border-bottom p-3">{book.category_name}</h3>
+                            <h4 className="border-bottom p-3">{book.category_name}</h4>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@ function Product(props) {
                     </div>
                 </div>
             </section>
-            <ReviewSection/>
+            <ReviewSection book={book}/>
         </Layout>
     );
 };

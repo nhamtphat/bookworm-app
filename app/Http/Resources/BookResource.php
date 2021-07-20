@@ -20,7 +20,8 @@ class BookResource extends JsonResource
                 'book_cover_photo' => asset("/assets/bookcover/". ($this->book_cover_photo ?? "book-default") .".jpg"),
                 'author_name' => $this->author->author_name,
                 'category_name' => $this->category->category_name,
-                'final_price' => $this->final_price
+                'final_price' => $this->final_price,
+                'avg_star' => $this->avg_star
             ]
         );
     }
