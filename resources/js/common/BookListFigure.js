@@ -14,7 +14,7 @@ class BookListFigure extends Component {
                     </aside>
                     <div className="col-md-6">
                         <div className="info-main">
-                            <Link to={'products/' + this.props.book.id} className="h5 title"> {this.props.book.book_title} </Link>
+                            <Link to={'/books/' + this.props.book.id} className="h5 title"> {this.props.book.book_title} </Link>
                             <div className="text-danger">{this.props.book.author_name}</div>
                             <p> {this.props.book.book_summary} </p>
                         </div>
@@ -31,7 +31,7 @@ class BookListFigure extends Component {
                             <p className="text-success">Free shipping</p>
                             <br />
                             <p>
-                                <Link to={"products/" + this.props.book.id} className="btn btn-primary btn-block">
+                                <Link to={"/books/" + this.props.book.id} className="btn btn-primary btn-block">
                                     <i className="fa fa-eye"></i>
                                     <span className="text">View product</span>
                                 </Link>
