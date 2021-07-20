@@ -4,7 +4,11 @@ import React from "react";
 
 function toDateString(string) {
     let date = new Date(string)
-    return date.toDateString()
+    return date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+    })
 }
 
 export default function ReviewItem(props) {
