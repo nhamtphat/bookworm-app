@@ -1,16 +1,27 @@
 import {Link, useHistory} from "react-router-dom";
 import React, {useEffect} from "react";
+import {toast} from "react-toastify";
 
 export default function CartThankYou(props) {
     const history = useHistory()
 
     const TimeToRedirect = 10000;
 
+    let redirect;
+
     useEffect(() => {
-        setTimeout(() => {
+        redirect = setTimeout(() => {
             history.push('/');
         }, TimeToRedirect)
+        toast.success("Successfully placed your order!")
     }, []);
+
+    useEffect(() => {
+        return () => {
+            console.log("unmount")
+            clearTimeout(redirect)
+        }
+    }, [])
 
     return (
         <section className="section-content bg padding-y pt-0">
