@@ -4,6 +4,7 @@ import axios from "axios";
 import "./ReviewSection.css"
 import Pagination from "../common/Pagination";
 import EmptyReviewAlert from "./EmptyReviewAlert";
+import ReviewForm from "./ReviewForm";
 
 export default function ReviewSection ({book}) {
     const [reviews, setReviews] = useState([]);
@@ -58,6 +59,7 @@ export default function ReviewSection ({book}) {
     }
 
     function changePerPage(event) {
+        setPage(1)
         setPerPage(event.target.value);
     }
 
@@ -67,6 +69,10 @@ export default function ReviewSection ({book}) {
             filterValue: filterData.value,
             filterValueName: filterData.name
         })
+    }
+
+    function getFilterName() {
+        return filter.filterValueName.substring(0,6)
     }
 
     return (
@@ -80,7 +86,7 @@ export default function ReviewSection ({book}) {
                                     <div className="">
                                         <h5>Customer Reviews
                                             {(filter.filterValueName != "")
-                                                ? <span className="sub-text ml-2">(Filterd by {filter.filterValueName})</span>
+                                                ? <span className="sub-text ml-2">(Filterd by {getFilterName()})</span>
                                                 : ""
                                             }
                                         </h5>
@@ -94,7 +100,7 @@ export default function ReviewSection ({book}) {
                                         </div>
                                     </div>
                                     <div className="form-inline">
-                                        <span className="mr-md-auto">{reviews.length} reviews found </span>
+                                        <span className="mr-md-auto">{`Showing ${meta.from} - ${meta.to} of ${meta.total} reviews`} </span>
                                         <select className="mr-2 form-control" onChange={changeSortBy} defaultValue={sortBy}>
                                             {sortMode.current.map((mode) => (
                                                 <option key={mode.mode} value={mode.mode}>{mode.name}</option>
@@ -123,32 +129,7 @@ export default function ReviewSection ({book}) {
                         </div>
                     </div>
                     <div className="col-md-4 mt-3 mt-md-0">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title mb-4">Write a review</h4>
-                                <form>
-                                    <div className="form-row">
-                                        <div className="col form-group">
-                                            <label>Add a title</label>
-                                            <input type="text" className="form-control" placeholder="" />
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Details please! Your review helps other shoppers.</label>
-                                        <textarea className="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Select a rating star?</label>
-                                        <select className="form-control">
-                                            {[1,2,3,4,5].map(star => (
-                                                <option key={star} value={star}>{star} Star</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <button className="btn btn-primary btn-block">Submit review</button>
-                                </form>
-                            </div>
-                        </div>
+                        <ReviewForm book={book} fetchData={fetchData} />
                     </div>
                 </div>
             </div>
