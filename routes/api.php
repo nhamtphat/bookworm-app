@@ -26,5 +26,5 @@ Route::get('shop/filters', [ShopController::class, 'getAllFilters']);
 Route::get('books/{book}/reviews/filters', [ReviewController::class, 'getAllFilters']);
 
 Route::apiResource('books', BookController::class)->only('show');
-Route::apiResource('books.reviews', ReviewController::class)->shallow()->only('index');
+Route::apiResource('books.reviews', ReviewController::class)->shallow()->only('index', 'store');
 Route::apiResource('orders', OrderController::class)->only('store');

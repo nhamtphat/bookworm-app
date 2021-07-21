@@ -9,6 +9,8 @@ use App\Http\Resources\ReviewResource;
 use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
@@ -49,5 +51,25 @@ class ReviewController extends Controller
 
         return [$rating_filter];
 
+    }
+
+    public function store(Request $request, Book $book)
+    {
+        $validation = Validator::make($request->all(), [
+            'review_title' => 'required|string|max:120',
+            'review_details' => 'nullable|string',
+            'rating_start' => [
+                'required',
+                Rule::in([1,2,3,4,5])
+            ]
+        ]);
+
+        if($validation->fails()){
+            return response($validation->getMessageBag(), 400);
+        }
+
+        $review = $book->reviews()->create($request->all());
+
+        return response($review, 201);
     }
 }
