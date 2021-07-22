@@ -88,10 +88,9 @@ function Book(props) {
                             <div className="card">
                                 <div className="card-header">
                                     <div className="">
-                                        {(book.book_price !== book.final_price)
-                                            ? <del className="text-gray-light">${book.book_price}</del>
-                                            : ""
-                                        }
+                                        {(book.book_price !== book.final_price) ? (
+                                            <del className="text-gray-light">${book.book_price}</del>
+                                        ) : null}
                                         <var className="price h4 ml-2">${book.final_price}</var>
                                     </div>
                                 </div>

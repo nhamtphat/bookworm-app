@@ -12,7 +12,7 @@ export default function Pagination (props) {
         return items;
     }
 
-    return (
+    return (props.page_count > 1) ? (
         <nav className="mt-4">
             <ul className="pagination">
                 <PaginationItem disabled={props.current_page === 1} page={props.current_page-1} text="Previous" setPage={props.setPage} />
@@ -22,5 +22,5 @@ export default function Pagination (props) {
                 <PaginationItem disabled={props.current_page === props.page_count} page={props.current_page+1} text="Next" setPage={props.setPage} />
             </ul>
         </nav>
-    )
+    ) : null
 }
