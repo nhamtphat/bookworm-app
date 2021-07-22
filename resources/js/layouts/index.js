@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Header from "./Header";
 import Footer from "./Footer";
 // // Bootstrap
@@ -14,26 +14,12 @@ import "../../assets/sass/_variables-custom.scss";
 // Package
 import 'react-toastify/dist/ReactToastify.css';
 
-class Layout extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.location !== prevProps.location) {
-            window.scrollTo(0, 0)
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <Header />
-                {this.props.children}
-                <Footer />
-            </div>
-        );
-    }
+export default function Layout (props) {
+    return (
+        <div>
+            <Header />
+            {props.children}
+            <Footer />
+        </div>
+    );
 }
-
-export default Layout;
