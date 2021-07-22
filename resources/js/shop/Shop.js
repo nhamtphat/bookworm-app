@@ -97,8 +97,8 @@ export default function Shop (props) {
                     <div className="row">
                         <aside className="col-md-3">
                             <Accordion defaultActiveKey="category_id">
-                                {allFilters.map((filter) => (
-                                    <FilterGroup key={filter.query_key} filter={filter} onChange={changeFilter} />
+                                {allFilters.map((allFilter) => (
+                                    <FilterGroup key={allFilter.query_key} filter={allFilter} currentFilter={filter} onChange={changeFilter} />
                                 ))}
                             </Accordion>
                         </aside>

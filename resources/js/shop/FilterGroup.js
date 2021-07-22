@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
-import {Accordion, Card, Button} from "react-bootstrap";
+import React from 'react';
+import {Accordion, Card} from "react-bootstrap";
 
-function FilterGroup (props) {
+function FilterGroup ({filter, currentFilter, onChange}) {
     return (
         <Card>
             <Card.Header>
-                <Accordion.Toggle as={Card.Title} variant="link" eventKey={props.filter.query_key}>
-                    {props.filter.title}
+                <Accordion.Toggle as={Card.Title} variant="link" eventKey={filter.query_key}>
+                    {filter.title}
                 </Accordion.Toggle>
             </Card.Header>
-            <Accordion.Collapse eventKey={props.filter.query_key}>
+            <Accordion.Collapse eventKey={filter.query_key}>
                 <Card.Body>
-                    {props.filter.data.map((item) => (
-                        <label className="custom-control custom-radio" key={item.value}>
-                            <input type="radio" name="myfilter_radio" className="custom-control-input" value={item.value} onChange={() => props.onChange(props.filter, item)}/>
-                            <div className="custom-control-label">{item.name}</div>
-                        </label>
+                    {filter.data.map((item) => (
+                        <p
+                            style={{ cursor: "pointer", textTransform: "capitalize" }}
+                            className={(currentFilter.filterValue === item.value)? "font-weight-bold" : null}
+                            onClick={() => onChange(filter, item)} >
+                            {item.name}
+                        </p>
                     ))}
                 </Card.Body>
             </Accordion.Collapse>
