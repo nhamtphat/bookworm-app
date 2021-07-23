@@ -50,5 +50,3 @@ class HomepageController extends Controller
         return compact('onsale_books', 'recommended_books', 'popular_books');
     }
 }
-
-

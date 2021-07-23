@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ShopFilter;
-use App\Helpers\ShopFilterData;
+use App\Supports\ReviewFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
 use App\Models\Book;
@@ -26,31 +25,21 @@ class ReviewController extends Controller
 
         $query = $book->reviews();
 
-        if($request->has('filter_value') && $request->get('filter_value') != "") {
+        if ($request->has('filter_value') && $request->get('filter_value') != "") {
             $query = $query->where('rating_start', $request->get('filter_value'));
         }
 
-        if($request->get('sort_by') == 'newest_first') {
-            $query = $query->latest('review_date');
-        } else {
-            $query = $query->oldest('review_date');
-        }
+        $sort_scope = ($request->get('sort_by') == 'newest_first') ? "latest" : "oldest";
+        $query = $query->{$sort_scope}('review_date');
 
         return ReviewResource::collection($query->paginate($per_page));
     }
 
-    public function getAllFilters(Book $book)//: array
+    public function getAllFilters(Book $book)
     {
-        $reviews_count = $book->reviews()->selectRaw('rating_start, count(*)')->groupBy('rating_start')->get();
-
-        $ratings = collect([1, 2, 3, 4, 5])->map(function ($star) use ($reviews_count) {
-            $count = $reviews_count->firstWhere('rating_start', $star)->count ?? 0;
-            return new ShopFilterData("$star star ($count)", $star);
-        });
-        $rating_filter = new ShopFilter("Rating", "star", $ratings);
+        $rating_filter = ReviewFilter::getFiltersOfBook($book);
 
         return [$rating_filter];
-
     }
 
     public function store(Request $request, Book $book)
@@ -64,7 +53,7 @@ class ReviewController extends Controller
             ]
         ]);
 
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response($validation->getMessageBag(), 400);
         }
 
