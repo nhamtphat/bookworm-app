@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\Book;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -29,7 +30,7 @@ class OrderController extends Controller
 
             $order_items = [];
             $order_amount = 0;
-            for($i = 0; $i < count($books); $i++) {
+            for ($i = 0; $i < count($books); $i++) {
                 $order_items[] = [
                     'book_id' => $books[$i]->id,
                     'price' => $books[$i]->final_price,
