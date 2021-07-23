@@ -1,6 +1,7 @@
 import {
   ADD_CART,
   DECREASE_QUANTITY,
+  DELETE_PRODUCT,
   EMPTY_CART,
   INCREASE_QUANTITY,
 } from '../actions'
@@ -112,10 +113,22 @@ export default function cartReducer(state = initProduct, action) {
           }
         }),
       }
+
+    case DELETE_PRODUCT:
+      let p_product_id = action.payload
+      return {
+        ...state,
+        numberCart: state.numberCart - 1,
+        Carts: state.Carts.filter((item) => {
+          return item.product.id != p_product_id
+        }),
+      }
+
     case EMPTY_CART:
       return {
         ...initProduct,
       }
+
     default:
       return state
   }

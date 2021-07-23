@@ -5,12 +5,14 @@ import {
   DecreaseQuantity,
   IncreaseQuantity,
   EmptyCart,
+  DeleteProduct,
 } from '../_store/actions'
 import { Link } from 'react-router-dom'
 import EmptyCartAlert from './EmptyCartAlert'
 import { Helmet } from 'react-helmet'
 import axios from 'axios'
 import CartThankYou from './CartThankYou'
+import { toast } from 'react-toastify'
 
 function Cart(props) {
   const [thankYou, setThankYou] = useState(false)
@@ -34,10 +36,22 @@ function Cart(props) {
     let params = {
       cart: props.cart,
     }
-    axios.post('/api/orders', params).then((response) => {
-      props.EmptyCart()
-      setThankYou(true)
-    })
+    axios
+      .post('/api/orders', params)
+      .then((response) => {
+        props.EmptyCart()
+        setThankYou(true)
+      })
+      .catch((error) => {
+        let data = error.response.data
+        data.unavailable_products.forEach((item) => {
+          props.DeleteProduct(item)
+        })
+        toast.error(
+          'Some products are no longer available. It will be removed from the cart',
+          { autoClose: 10000 },
+        )
+      })
   }
 
   return (
@@ -213,5 +227,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   IncreaseQuantity,
   DecreaseQuantity,
+  DeleteProduct,
   EmptyCart,
 })(Cart)
