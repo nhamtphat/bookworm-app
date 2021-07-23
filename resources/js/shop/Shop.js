@@ -8,15 +8,17 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { Accordion } from 'react-bootstrap'
 
+const initFilter = {
+  filterBy: '',
+  filterValue: 0,
+  filterByTitle: '',
+  filterValueName: '',
+}
+
 export default function Shop(props) {
   const [view, setView] = useState('grid')
   const [sortBy, setSortBy] = useState('on_sale')
-  const [filter, setFilter] = useState({
-    filterBy: '',
-    filterValue: 0,
-    filterByTitle: '',
-    filterValueName: '',
-  })
+  const [filter, setFilter] = useState(initFilter)
   const [allFilters, setAllFilters] = useState([])
   const [perPage, setPerPage] = useState(20)
   const [page, setPage] = useState(1)
@@ -71,11 +73,18 @@ export default function Shop(props) {
     setPerPage(event.target.value)
   }
 
-  function changeFilter(filter, filterData) {
+  function changeFilter(new_filter, filterData) {
+    if (
+      filter.filterBy == new_filter.query_key &&
+      filter.filterValue == filterData.value
+    ) {
+      setFilter(initFilter)
+      return
+    }
     setFilter({
-      filterBy: filter.query_key,
+      filterBy: new_filter.query_key,
       filterValue: filterData.value,
-      filterByTitle: filter.title,
+      filterByTitle: new_filter.title,
       filterValueName: filterData.name,
     })
     setPage(1)
