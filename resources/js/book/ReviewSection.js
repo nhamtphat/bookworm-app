@@ -108,7 +108,7 @@ export default function ReviewSection({ book }) {
                             'filter-item ' +
                             (index == 0 ? 'first ' : '') +
                             (currentFilter.filterValue == filter.value
-                              ? 'font-weight-bold'
+                              ? 'font-weight-bold '
                               : '')
                           }
                           onClick={() => changeFilter(filter)}
