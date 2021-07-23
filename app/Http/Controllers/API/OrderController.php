@@ -22,6 +22,15 @@ class OrderController extends Controller
         $books_quantity =  $request->input('cart.*.quantity');
         $books = $this->bookModel->with('availableDiscounts')->whereIn('id', $books_id)->get();
 
+        if(count($books) < count($books_id)) {
+            $unavailable_products_id = collect($books_id)->diff($books->pluck("id"));
+
+            return response([
+                'error' => 'Unavailable products',
+                'unavailable_products' => $unavailable_products_id
+            ], 400);
+        }
+
         $order = DB::transaction(function () use ($books, $books_quantity) {
             $order = $this->orderModel->create([
                 'order_date' => now(),
