@@ -8,6 +8,7 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { Accordion } from 'react-bootstrap'
 import "../../css/Shop.css"
+import scrollToTop from "../_function/scrollToTop";
 
 const initFilter = {
   filterBy: '',
@@ -75,6 +76,7 @@ export default function Shop(props) {
   }
 
   function changeFilter(new_filter, filterData) {
+    changePage(1)
     if (
       filter.filterBy == new_filter.query_key &&
       filter.filterValue == filterData.value
@@ -88,7 +90,11 @@ export default function Shop(props) {
       filterByTitle: new_filter.title,
       filterValueName: filterData.name,
     })
-    setPage(1)
+  }
+
+  function changePage(page) {
+    setPage(page)
+    scrollToTop()
   }
 
   return (
@@ -195,7 +201,7 @@ export default function Shop(props) {
                 className="text-center"
                 page_count={meta.last_page}
                 current_page={page}
-                setPage={setPage}
+                setPage={changePage}
               />
             </main>
           </div>
