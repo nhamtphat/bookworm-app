@@ -13,7 +13,7 @@ export default function About() {
           </div>
         </div>
         <div className="container">
-          <div className="col-8 mx-auto">
+          <div className="col-md-8 mx-auto">
             <div className="row">
               <div className="col-md-12">
                 <header className="section-heading">
@@ -29,8 +29,8 @@ export default function About() {
                 </p>
               </div>
             </div>
-            <div className="row mt-5">
-              <div className="col-md-6">
+            <div className="row ">
+              <div className="col-md-6 mt-5">
                 <h4>Our Story</h4>
                 <p>
                   The name Bookworm was taken from the original name for New
@@ -47,7 +47,7 @@ export default function About() {
                   Flatiron District.
                 </p>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 mt-5">
                 <h4>Our Vision</h4>
                 <p>
                   One of the last travel bookstores in the country, our

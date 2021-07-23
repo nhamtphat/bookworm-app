@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './Header'
 import Footer from './Footer'
+import { useLocation } from 'react-router-dom'
+import scrollToTop from "../_function/scrollToTop"
 // // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
 // Fonticons
@@ -15,6 +17,12 @@ import '../../assets/sass/_variables-custom.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Layout(props) {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    scrollToTop()
+  }, [pathname])
+
   return (
     <div>
       <Header />

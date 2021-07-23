@@ -80,13 +80,13 @@ function Cart(props) {
                   <thead className="text-muted">
                     <tr className="small text-uppercase">
                       <th scope="col">Book</th>
-                      <th scope="col" width="120">
+                      <th scope="col" width="120" className="d-none d-md-block">
                         Price
                       </th>
                       <th scope="col" width="120">
                         Quantity
                       </th>
-                      <th scope="col" width="120">
+                      <th scope="col" width="120" className="d-none d-md-block">
                         Total
                       </th>
                     </tr>
@@ -119,7 +119,7 @@ function Cart(props) {
                             </figure>
                           </Link>
                         </td>
-                        <td>
+                        <td className="d-none d-md-block">
                           <div className="price-wrap">
                             <var className="price">
                               ${item.product.final_price}
@@ -162,8 +162,18 @@ function Cart(props) {
                               </button>
                             </div>
                           </div>
+                          <var
+                            className="price float-right mt-3 font-weight-bold d-md-none"
+                            style={{ fontSize: '1.5rem' }}
+                          >
+                            $
+                            {TotalPrice(
+                              item.product.final_price,
+                              item.quantity,
+                            )}
+                          </var>
                         </td>
-                        <td>
+                        <td className="d-none d-md-block">
                           <div className="price-wrap">
                             <var className="price">
                               $

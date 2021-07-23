@@ -150,8 +150,8 @@ function Book(props) {
             </div>
           </div>
         </div>
+        <ReviewSection book={book} />
       </section>
-      <ReviewSection book={book} />
     </Layout>
   )
 }

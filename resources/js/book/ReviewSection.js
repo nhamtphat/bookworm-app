@@ -83,95 +83,93 @@ export default function ReviewSection({ book }) {
   }
 
   return (
-    <section className="section-review bg padding-y">
-      <div className="container">
-        <div className="row mt-4">
-          <div className="col-md-8">
-            <div className="card">
-              <div className="card-header">
-                <header className="p-2">
-                  <div className="">
-                    <h5>
-                      Customer Reviews
-                      {currentFilter.filterValueName != '' ? (
-                        <span className="sub-text ml-2">
-                          (Filterd by {getFilterName()})
-                        </span>
-                      ) : null}
-                    </h5>
-                    <div className="d-block my-2">
-                      <h2>{book.avg_star} Star</h2>
-                      {allFilters.map((filter, index) => (
-                        <span
-                          key={index}
-                          className={
-                            'filter-item ' +
-                            (index == 0 ? 'first ' : '') +
-                            (currentFilter.filterValue == filter.value
-                              ? 'font-weight-bold '
-                              : '')
-                          }
-                          onClick={() => changeFilter(filter)}
-                        >
-                          {filter.name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="form-inline">
-                    <span className="mr-md-auto">
-                      {`Showing ${meta.from} - ${meta.to} of ${meta.total} reviews`}{' '}
-                    </span>
-                    <select
-                      className="mr-2 form-control"
-                      onChange={changeSortBy}
-                      defaultValue={sortBy}
-                    >
-                      {sortMode.current.map((mode) => (
-                        <option key={mode.mode} value={mode.mode}>
-                          {mode.name}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      className="form-control"
-                      onChange={changePerPage}
-                      defaultValue={perPage}
-                    >
-                      {perPageMode.current.map((mode) => (
-                        <option key={mode.mode} value={mode.mode}>
-                          {mode.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </header>
-              </div>
-              <div className="card-body">
-                {reviews.length == 0 ? (
-                  <EmptyReviewAlert />
-                ) : (
-                  <div>
-                    {reviews.map((review, index) => (
-                      <ReviewItem key={index} review={review} />
+    <div className="container">
+      <div className="row mt-4">
+        <div className="col-md-8">
+          <div className="card">
+            <div className="card-header">
+              <header className="p-2">
+                <div className="">
+                  <h5>
+                    Customer Reviews
+                    {currentFilter.filterValueName != '' ? (
+                      <span className="sub-text ml-2">
+                        (Filterd by {getFilterName()})
+                      </span>
+                    ) : null}
+                  </h5>
+                  <div className="d-block my-2">
+                    <h2>{book.avg_star} Star</h2>
+                    {allFilters.map((filter, index) => (
+                      <span
+                        key={index}
+                        className={
+                          'filter-item ' +
+                          (index == 0 ? 'first ' : '') +
+                          (currentFilter.filterValue == filter.value
+                            ? 'font-weight-bold '
+                            : '')
+                        }
+                        onClick={() => changeFilter(filter)}
+                      >
+                        {filter.name}
+                      </span>
                     ))}
-
-                    <Pagination
-                      className="text-center"
-                      page_count={meta.last_page}
-                      current_page={page}
-                      setPage={setPage}
-                    />
                   </div>
-                )}
-              </div>
+                </div>
+                <div className="form-inline shop-meta">
+                  <span className="mr-md-auto">
+                    {`Showing ${meta.from} - ${meta.to} of ${meta.total} reviews`}{' '}
+                  </span>
+                  <select
+                    className="mr-md-2 form-control"
+                    onChange={changeSortBy}
+                    defaultValue={sortBy}
+                  >
+                    {sortMode.current.map((mode) => (
+                      <option key={mode.mode} value={mode.mode}>
+                        {mode.name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className="form-control"
+                    onChange={changePerPage}
+                    defaultValue={perPage}
+                  >
+                    {perPageMode.current.map((mode) => (
+                      <option key={mode.mode} value={mode.mode}>
+                        {mode.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </header>
+            </div>
+            <div className="card-body">
+              {reviews.length == 0 ? (
+                <EmptyReviewAlert />
+              ) : (
+                <div>
+                  {reviews.map((review, index) => (
+                    <ReviewItem key={index} review={review} />
+                  ))}
+
+                  <Pagination
+                    className="text-center"
+                    page_count={meta.last_page}
+                    current_page={page}
+                    setPage={setPage}
+                  />
+                </div>
+              )}
             </div>
           </div>
-          <div className="col-md-4 mt-3 mt-md-0">
-            <ReviewForm book={book} fetchData={fetchData} />
-          </div>
+        </div>
+        <div className="col-md-4 mt-3 mt-md-0">
+          <ReviewForm book={book} fetchData={fetchData} />
         </div>
       </div>
-    </section>
+    </div>
   )
 }
