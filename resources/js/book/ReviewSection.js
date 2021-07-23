@@ -6,13 +6,15 @@ import Pagination from '../common/Pagination'
 import EmptyReviewAlert from './EmptyReviewAlert'
 import ReviewForm from './ReviewForm'
 
+const initFilter = {
+  filterValue: '',
+  filterValueName: '',
+}
+
 export default function ReviewSection({ book }) {
   const [reviews, setReviews] = useState([])
   const [sortBy, setSortBy] = useState('newest_first')
-  const [filter, setFilter] = useState({
-    filterValue: '',
-    filterValueName: '',
-  })
+  const [currentFilter, setFilter] = useState(initFilter)
   const [allFilters, setAllFilters] = useState([])
   const [perPage, setPerPage] = useState(20)
   const [page, setPage] = useState(1)
@@ -32,7 +34,7 @@ export default function ReviewSection({ book }) {
 
   useEffect(() => {
     fetchData()
-  }, [book, sortBy, perPage, page, filter])
+  }, [book, sortBy, perPage, page, currentFilter])
 
   function fetchData() {
     if (book.id === undefined) return
@@ -41,7 +43,7 @@ export default function ReviewSection({ book }) {
         per_page: perPage,
         page: page,
         sort_by: sortBy,
-        filter_value: filter.filterValue,
+        filter_value: currentFilter.filterValue,
       },
     }
 
@@ -66,6 +68,10 @@ export default function ReviewSection({ book }) {
 
   function changeFilter(filterData) {
     setPage(1)
+    if (currentFilter.filterValue == filterData.value) {
+      setFilter(initFilter)
+      return
+    }
     setFilter({
       filterValue: filterData.value,
       filterValueName: filterData.name,
@@ -73,7 +79,7 @@ export default function ReviewSection({ book }) {
   }
 
   function getFilterName() {
-    return filter.filterValueName.substring(0, 6)
+    return currentFilter.filterValueName.substring(0, 6)
   }
 
   return (
@@ -87,22 +93,24 @@ export default function ReviewSection({ book }) {
                   <div className="">
                     <h5>
                       Customer Reviews
-                      {filter.filterValueName != '' ? (
+                      {currentFilter.filterValueName != '' ? (
                         <span className="sub-text ml-2">
                           (Filterd by {getFilterName()})
                         </span>
-                      ) : (
-                        ''
-                      )}
+                      ) : null}
                     </h5>
                     <div className="d-block my-2">
                       <h2>{book.avg_star} Star</h2>
                       {allFilters.map((filter, index) => (
                         <span
                           key={index}
-                          className={`filter-item ${
-                            index == 0 ? 'first' : ''
-                          } `}
+                          className={
+                            'filter-item ' +
+                            (index == 0 ? 'first ' : '') +
+                            (currentFilter.filterValue == filter.value
+                              ? 'font-weight-bold'
+                              : '')
+                          }
                           onClick={() => changeFilter(filter)}
                         >
                           {filter.name}
