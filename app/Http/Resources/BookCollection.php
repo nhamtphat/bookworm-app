@@ -9,7 +9,8 @@ class BookCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -17,7 +18,7 @@ class BookCollection extends ResourceCollection
         return array_merge(
             parent::toArray($request),
             [
-                'final_price' => $this->final_price
+                'final_price' => $this->final_price,
             ]
         );
     }

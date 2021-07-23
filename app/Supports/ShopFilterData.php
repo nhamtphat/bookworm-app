@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Supports;
-
 
 class ShopFilterData
 {

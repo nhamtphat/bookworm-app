@@ -45,6 +45,7 @@ class Book extends Model
     public function getAvgStarAttribute()
     {
         $avg = ($this->avg_star ?? $this->reviews->avg('rating_start'));
+
         return round($avg, 2);
     }
 
@@ -56,7 +57,7 @@ class Book extends Model
                 ->leftJoin('reviews', function ($join) {
                     $join->on('sub_books.id', '=', 'reviews.book_id');
                 })
-                ->limit(1)
+                ->limit(1),
         ]);
     }
 
@@ -76,9 +77,9 @@ class Book extends Model
             'final_price' => DB::table('books as sub_books')->selectRaw('COALESCE(discounts.discount_price, books.book_price)')
                 ->whereColumn('books.id', '=', 'sub_books.id')
                 ->leftJoin('discounts', function ($join) {
-                    (new Discount)->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
+                    (new Discount())->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
                 })
-                ->limit(1)
+                ->limit(1),
         ]);
     }
 
@@ -88,9 +89,9 @@ class Book extends Model
             'sub_price' => DB::table('books as sub_books')->selectRaw('COALESCE(books.book_price - discounts.discount_price, 0)')
                 ->whereColumn('books.id', '=', 'sub_books.id')
                 ->leftJoin('discounts', function ($join) {
-                    (new Discount)->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
+                    (new Discount())->scopeAvailable($join->on('sub_books.id', '=', 'discounts.book_id'));
                 })
-                ->limit(1)
+                ->limit(1),
         ]);
     }
 }
