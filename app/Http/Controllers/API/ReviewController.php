@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Supports\ReviewFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
 use App\Models\Book;
 use App\Models\Review;
+use App\Supports\ReviewFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -25,11 +25,11 @@ class ReviewController extends Controller
 
         $query = $book->reviews();
 
-        if ($request->has('filter_value') && $request->get('filter_value') != "") {
+        if ($request->has('filter_value') && $request->get('filter_value') != '') {
             $query = $query->where('rating_start', $request->get('filter_value'));
         }
 
-        $sort_scope = ($request->get('sort_by') == 'newest_first') ? "latest" : "oldest";
+        $sort_scope = ($request->get('sort_by') == 'newest_first') ? 'latest' : 'oldest';
         $query = $query->{$sort_scope}('review_date');
 
         return ReviewResource::collection($query->paginate($per_page));
@@ -45,12 +45,12 @@ class ReviewController extends Controller
     public function store(Request $request, Book $book)
     {
         $validation = Validator::make($request->all(), [
-            'review_title' => 'required|string|max:120',
+            'review_title'   => 'required|string|max:120',
             'review_details' => 'nullable|string',
-            'rating_start' => [
+            'rating_start'   => [
                 'required',
-                Rule::in([1,2,3,4,5])
-            ]
+                Rule::in([1, 2, 3, 4, 5]),
+            ],
         ]);
 
         if ($validation->fails()) {

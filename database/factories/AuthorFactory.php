@@ -23,7 +23,7 @@ class AuthorFactory extends Factory
     {
         return [
             'author_name' => $this->faker->name(),
-            'author_bio' => $this->faker->text(),
+            'author_bio'  => $this->faker->text(),
         ];
     }
 }

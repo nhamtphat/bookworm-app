@@ -28,7 +28,7 @@ class BookSeeder extends Seeder
                     ->count($faker->numberBetween(1, 10))
                     ->create([
                         'category_id' => $category->id,
-                        'author_id' => $author->id,
+                        'author_id'   => $author->id,
                     ]);
                 foreach ($books as $book) {
                     if ($faker->boolean(25)) {
@@ -37,7 +37,7 @@ class BookSeeder extends Seeder
                         if ($percentage) {
                             $discount->create([
                                 'discount_price' => number_format($book->book_price * $percentage / 100, 2),
-                                'book_id' => $book->id
+                                'book_id'        => $book->id,
                             ]);
                         } else {
                             $discount->create(['book_id' => $book->id]);
@@ -46,7 +46,7 @@ class BookSeeder extends Seeder
                     if ($faker->boolean(40)) {
                         Review::factory()->count($faker->numberBetween(1, 10))
                             ->create([
-                                'book_id' => $book->id
+                                'book_id' => $book->id,
                             ]);
                     }
                 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Supports;
-
 
 use App\Models\Author;
 use App\Models\Category;
@@ -22,7 +20,7 @@ class ShopFilter
             return new ShopFilterData($author->author_name, $author->id);
         });
 
-        return new ShopFilter("Author", "author_id", $authors);
+        return new ShopFilter('Author', 'author_id', $authors);
     }
 
     public static function getFiltersByCategory()
@@ -30,7 +28,8 @@ class ShopFilter
         $categories = Category::orderBy('category_name')->get(['id', 'category_name'])->map(function ($category) {
             return new ShopFilterData($category->category_name, $category->id);
         });
-        return new ShopFilter("Category", "category_id", $categories);
+
+        return new ShopFilter('Category', 'category_id', $categories);
     }
 
     public static function getFiltersByStar()
@@ -38,6 +37,7 @@ class ShopFilter
         $ratings = collect([1, 2, 3, 4, 5])->map(function ($star) {
             return new ShopFilterData("$star star", $star);
         });
-        return new ShopFilter("Rating", "star", $ratings);
+
+        return new ShopFilter('Rating', 'star', $ratings);
     }
 }

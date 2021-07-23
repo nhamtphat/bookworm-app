@@ -38,11 +38,12 @@ class ReviewFactory extends Factory
             '4',
             '5',
         ]);
+
         return [
-            'review_title' => $this->faker->sentence($this->faker->biasedNumberBetween(3, 6)),
+            'review_title'   => $this->faker->sentence($this->faker->biasedNumberBetween(3, 6)),
             'review_details' => $this->faker->paragraphs($this->faker->biasedNumberBetween(3, 6), true),
-            'review_date' => $this->faker->dateTimeBetween($rndDate),
-            'rating_start' => $rndRate,
+            'review_date'    => $this->faker->dateTimeBetween($rndDate),
+            'rating_start'   => $rndRate,
         ];
     }
 }
