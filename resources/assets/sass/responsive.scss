@@ -11,7 +11,7 @@
 	/* small tablet devices */
 
 	.section-header{
-		
+
 	}
 
 
@@ -19,7 +19,7 @@
 		.item-slide{height:auto}
 	}
 
-	
+
 
 
 	.table-shopping-cart{
@@ -29,12 +29,12 @@
 		 	.aside{  display:none; }
 		 }
 
-		
+
 	}
-	
+
 }
 
-@media all and (max-width:768px) {   
+@media all and (max-width:768px) {
 	/* mobile devices */
 	.mobile-block{ display: block }
 	.mobile-hide{ display:none }
@@ -69,8 +69,7 @@
 		}
 	}
 
+	.shop-meta > * { margin: 5px 0px; }
 
-
-
-	
+	.slick-arrow:before { display: none; }
 }

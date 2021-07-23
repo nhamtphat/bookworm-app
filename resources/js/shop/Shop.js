@@ -7,6 +7,7 @@ import FilterGroup from './FilterGroup'
 import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { Accordion } from 'react-bootstrap'
+import "../../css/Shop.css"
 
 const initFilter = {
   filterBy: '',
@@ -125,7 +126,7 @@ export default function Shop(props) {
             </aside>
             <main className="col-md-9">
               <header className="border-bottom mb-4 pb-3">
-                <div className="form-inline">
+                <div className="form-inline shop-meta">
                   <span className="mr-md-auto">
                     {`Showing ${meta.from} - ${meta.to} of ${meta.total} books`}{' '}
                   </span>
