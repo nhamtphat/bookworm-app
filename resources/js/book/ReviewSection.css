@@ -1,23 +1,23 @@
 .review-filters-box {
-    display: block;
+  display: block;
 }
 
 .filter-item {
-    padding: 5px;
-    cursor: pointer;
-    text-decoration: underline;
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .filter-item:before {
-    content: "|";
-    margin-right: 4px;
+  content: '|';
+  margin-right: 4px;
 }
 
 .filter-item.first {
-    padding-left: 0px;
+  padding-left: 0px;
 }
 
 .filter-item.first:before {
-    content: "";
-    margin-right: 0px;
+  content: '';
+  margin-right: 0px;
 }
