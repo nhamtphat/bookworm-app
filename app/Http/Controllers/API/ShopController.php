@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Supports\ShopFilter;
-use App\Supports\ShopFilterData;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
+use App\Supports\ShopFilter;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -26,9 +25,8 @@ class ShopController extends Controller
 
         $query = $this->bookModel->with('author', 'category', 'availableDiscounts', 'reviews')->selectFinalPrice();
 
-
-        if ($request->get('filter_by') != "" && $request->get('filter_value') != "") {
-            if($request->get('filter_by') == 'star') {
+        if ($request->get('filter_by') != '' && $request->get('filter_value') != '') {
+            if ($request->get('filter_by') == 'star') {
                 $star = $request->get('filter_value');
                 $book_query = Book::select('books.id')
                     ->join('reviews', 'books.id', '=', 'reviews.book_id')
@@ -43,18 +41,18 @@ class ShopController extends Controller
         }
 
         switch ($request->get('sort_by')) {
-            case "popularity":
+            case 'popularity':
                 $query = $query
                     ->withCount('reviews')
                     ->orderByDesc('reviews_count')
                     ->orderBy('final_price');
                 break;
 
-            case "asc_price":
+            case 'asc_price':
                 $query = $query->orderBy('final_price');
                 break;
 
-            case "desc_price":
+            case 'desc_price':
                 $query = $query->orderByDesc('final_price');
                 break;
 
@@ -81,7 +79,7 @@ class ShopController extends Controller
         return [
             $category_filter,
             $author_filter,
-            $rating_filter
+            $rating_filter,
         ];
     }
 }
