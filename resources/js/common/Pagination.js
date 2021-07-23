@@ -7,24 +7,25 @@ export default function Pagination(props) {
   const MAX_LENGTH = MAX_PREV + MAX_NEXT
 
   function renderPages(page_count, current_page) {
-    let start = current_page
+    let start = 1
     let stop = page_count
     let items = []
 
     if (page_count > MAX_LENGTH) {
       start = current_page - MAX_PREV
       stop = current_page + MAX_NEXT
+
+      if (start < 1) {
+        stop += 1 - start
+        start = 1
+      }
+
+      if (stop > page_count) {
+        start += page_count - stop
+        stop = page_count
+      }
     }
 
-    if (start < 1) {
-      stop += 1 - start
-      start = 1
-    }
-
-    if (stop > page_count) {
-      start += page_count - stop
-      stop = page_count
-    }
 
     for (let number = start; number <= stop; number++) {
       items.push(
