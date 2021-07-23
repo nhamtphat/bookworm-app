@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\API\BookController;
 use App\Http\Controllers\API\HomepageController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\API\ShopController;
-use App\Http\Controllers\API\OrderController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
