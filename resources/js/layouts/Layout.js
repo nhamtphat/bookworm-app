@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import { useLocation } from 'react-router-dom'
-import scrollToTop from "../_function/scrollToTop"
+import scrollToTop from "../_helpers/scrollToTop"
 // // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
 // Fonticons

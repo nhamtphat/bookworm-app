@@ -1,5 +1,5 @@
 import PaginationItem from './PaginationItem'
-import './Pagination.css'
+import '../../css/Pagination.css'
 
 export default function Pagination(props) {
   const MAX_PREV = 3

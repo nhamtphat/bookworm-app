@@ -1,7 +1,7 @@
 import ReviewItem from './ReviewItem'
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import './ReviewSection.css'
+import '../../css/ReviewSection.css'
 import Pagination from '../common/Pagination'
 import EmptyReviewAlert from './EmptyReviewAlert'
 import ReviewForm from './ReviewForm'

@@ -8,7 +8,7 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { Accordion } from 'react-bootstrap'
 import "../../css/Shop.css"
-import scrollToTop from "../_function/scrollToTop";
+import scrollToTop from "../_helpers/scrollToTop";
 
 const initFilter = {
   filterBy: '',

@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import axios from 'axios'
 import { Helmet } from 'react-helmet'
-import './Home.css'
+import '../../css/Home.css'
 import { Link } from 'react-router-dom'
 
 export default function Home() {
