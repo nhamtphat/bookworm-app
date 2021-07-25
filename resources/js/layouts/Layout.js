@@ -15,6 +15,7 @@ import '../../assets/sass/responsive.scss'
 import '../../assets/sass/_variables-custom.scss'
 // Package
 import 'react-toastify/dist/ReactToastify.css'
+import 'antd/dist/antd.css';
 
 export default function Layout(props) {
   const { pathname } = useLocation()

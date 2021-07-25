@@ -15,8 +15,9 @@ function FilterGroup({ filter, currentFilter, onChange }) {
       </Card.Header>
       <Accordion.Collapse eventKey={filter.query_key}>
         <Card.Body>
-          {filter.data.map((item) => (
+          {filter.data.map((item, key) => (
             <p
+              key={key}
               style={{
                 cursor: 'pointer',
                 textTransform: 'capitalize',

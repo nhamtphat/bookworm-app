@@ -9,6 +9,8 @@ import { Helmet } from 'react-helmet'
 import { Accordion } from 'react-bootstrap'
 import "../../css/Shop.css"
 import scrollToTop from "../_helpers/scrollToTop";
+import {Spin} from "antd";
+import LoadingSpin from "../common/LoadingSpin";
 
 const initFilter = {
   filterBy: '',
@@ -99,21 +101,26 @@ export default function Shop(props) {
     scrollToTop()
   }
 
+  function dataIsReady() {
+    return (allFilters.length > 0 && data.length > 0);
+  }
+
   return (
     <Layout>
       <Helmet>
         <title>Bookworm Shop</title>
       </Helmet>
       <section className="section-content bg padding-y pt-0">
-        <div className="container">
+        {!dataIsReady() ? <LoadingSpin /> : null}
+
+        <div className={'container ' + (dataIsReady() ? '' : 'd-none')}>
           <div className="row mb-5">
             <div className="col-12">
               <h3 className="border-bottom p-3">
                 Books
                 {filter.filterByTitle != '' ? (
                   <span className="sub-text ml-2">
-                    (Filterd by {filter.filterByTitle} #{filter.filterValueName}
-                    )
+                    (Filterd by {filter.filterByTitle} {filter.filterValueName})
                   </span>
                 ) : null}
               </h3>

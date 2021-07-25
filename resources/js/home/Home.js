@@ -8,6 +8,7 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import '../../css/Home.css'
 import { Link } from 'react-router-dom'
+import LoadingSpin from '../common/LoadingSpin'
 
 export default function Home() {
   const [onSaleBook, setOnSaleBooks] = useState([])
@@ -38,13 +39,24 @@ export default function Home() {
     ],
   }
 
+  function dataIsReady() {
+    return !(
+      onSaleBook.length == 0 ||
+      recommendedBooks.length == 0 ||
+      popularBooks.length == 0
+    )
+  }
+
   return (
     <Layout>
       <Helmet>
         <title>Bookworm Homepage</title>
       </Helmet>
+
       <section className="section-content bg padding-y">
-        <div className="container">
+        {!dataIsReady() ? <LoadingSpin /> : null}
+
+        <div className={'container ' + (dataIsReady() ? '' : 'd-none')}>
           <div className="row">
             <div className="col-12">
               <h4 className="d-inline">On Sale</h4>
@@ -53,13 +65,18 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <Slider {...settings}>
-            {onSaleBook.map((book) => (
-              <div key={book.id} className="item-slide p-2">
-                <BookGridFigure book={book} />
-              </div>
-            ))}
-          </Slider>
+
+          {onSaleBook.length == 0 ? (
+            <LoadingSpin />
+          ) : (
+            <Slider {...settings}>
+              {onSaleBook.map((book) => (
+                <div key={book.id} className="item-slide p-2">
+                  <BookGridFigure book={book} />
+                </div>
+              ))}
+            </Slider>
+          )}
 
           <div className="p-3 mt-5 text-center">
             <h4>Featured Books</h4>
@@ -89,6 +106,10 @@ export default function Home() {
           </div>
 
           <div className="row">
+            {recommendedBooks.length == 0 || popularBooks.length == 0 ? (
+              <LoadingSpin />
+            ) : null}
+
             {(view == 'recommended' ? recommendedBooks : popularBooks).map(
               (book) => (
                 <div key={book.id} className="col-md-3">

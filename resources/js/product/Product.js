@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet'
 import { AddCart } from '../_store/actions'
 import { connect } from 'react-redux'
+import LoadingSpin from '../common/LoadingSpin'
 
 function Product(props) {
   const [book, setBook] = useState({})
@@ -29,20 +30,26 @@ function Product(props) {
     setQuantity(1)
   }
 
+  function dataIsReady() {
+    return (book.book_title != null)
+  }
+
   return (
     <Layout>
       <Helmet>
         <title>{book.book_title + ' - Bookworm'} </title>
       </Helmet>
       <section className="section-content bg padding-y pt-0">
-        <div className="container">
+        {!dataIsReady() ? <LoadingSpin /> : null}
+
+        <div className={'container ' + (!dataIsReady() ? 'd-none' : '')}>
           <div className="row mb-5">
             <div className="col-12">
-              <h4 className="border-bottom p-3 text-capitalize">{book.category_name}</h4>
+              <h4 className="border-bottom p-3 text-capitalize">
+                {book.category_name}
+              </h4>
             </div>
           </div>
-        </div>
-        <div className="container">
           <div className="row">
             <div className="col-md-8">
               <article className="card">
@@ -59,13 +66,15 @@ function Product(props) {
                     </aside>
                     <main className="col-md-8">
                       <article>
-                        <span className="text-primary">By (author) {book.author_name}</span>
+                        <span className="text-primary">
+                          By (author) {book.author_name}
+                        </span>
                         <h3 className="title">{book.book_title}</h3>
                         <div>
                           <ul className="rating-stars">
                             <li
                               style={{
-                                width: book.avg_star*20+"%",
+                                width: book.avg_star * 20 + '%',
                               }}
                               className="stars-active"
                             >
@@ -76,7 +85,7 @@ function Product(props) {
                             </li>
                           </ul>
                           <span className="label-rating mr-3 text-muted">
-                            { book.avg_star } star
+                            {book.avg_star} star
                           </span>
                         </div>
 
@@ -148,8 +157,9 @@ function Product(props) {
               </div>
             </div>
           </div>
+          <ReviewSection book={book} />
+
         </div>
-        <ReviewSection book={book} />
       </section>
     </Layout>
   )
