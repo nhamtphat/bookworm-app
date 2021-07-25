@@ -22,7 +22,8 @@ function FilterGroup({ filter, currentFilter, onChange }) {
                 textTransform: 'capitalize',
               }}
               className={
-                currentFilter.filterValue === item.value
+                currentFilter.filterValue === item.value &&
+                currentFilter.filterBy === filter.query_key
                   ? 'font-weight-bold'
                   : null
               }

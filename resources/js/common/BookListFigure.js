@@ -7,7 +7,9 @@ export default function BookListFigure({ book }) {
       <div className="row no-gutters">
         <aside className="col-md-3">
           <a href="#" className="img-wrap">
-            <span className="badge badge-danger"> NEW </span>
+            {book.final_price != book.book_price ? (
+              <span className="badge badge-danger"> NEW </span>
+            ) : null}
             <img src={book.book_cover_photo} />
           </a>
         </aside>

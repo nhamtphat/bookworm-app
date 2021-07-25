@@ -68,10 +68,12 @@ export default function Shop(props) {
   }
 
   function changeSortBy(event) {
+    changePage(1)
     setSortBy(event.target.value)
   }
 
   function changePerPage(event) {
+    changePage(1)
     setPerPage(event.target.value)
   }
 
@@ -119,6 +121,7 @@ export default function Shop(props) {
           </div>
           <div className="row">
             <aside className="col-md-3">
+              <div className="font-weight-bold mb-3">Filter By</div>
               <Accordion defaultActiveKey="category_id">
                 {allFilters.map((allFilter) => (
                   <FilterGroup

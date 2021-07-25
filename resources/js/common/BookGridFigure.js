@@ -6,9 +6,11 @@ export default function BookGridFigure({ book }) {
     <figure className="card card-product-grid">
       <Link to={'/books/' + book.id}>
         <div className="img-wrap">
-          <span className="topbar">
-            <span className="badge badge-success"> NEW </span>
-          </span>
+          {book.final_price != book.book_price ? (
+            <span className="topbar">
+              <span className="badge badge-success"> SALE </span>
+            </span>
+          ) : null}
           <img src={book.book_cover_photo} />
         </div>
       </Link>

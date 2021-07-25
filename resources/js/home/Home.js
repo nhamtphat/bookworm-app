@@ -47,7 +47,7 @@ export default function Home() {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h4 className="d-inline">Slick slider items</h4>
+              <h4 className="d-inline">On Sale</h4>
               <Link to="/shop" className="btn btn-secondary float-right">
                 View all <i className="fas fa-caret-right ml-2"></i>
               </Link>

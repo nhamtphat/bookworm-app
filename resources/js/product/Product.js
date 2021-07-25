@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet'
 import { AddCart } from '../_store/actions'
 import { connect } from 'react-redux'
 
-function Book(props) {
+function Product(props) {
   const [book, setBook] = useState({})
   const [quantity, setQuantity] = useState(1)
 
@@ -38,7 +38,7 @@ function Book(props) {
         <div className="container">
           <div className="row mb-5">
             <div className="col-12">
-              <h4 className="border-bottom p-3">{book.category_name}</h4>
+              <h4 className="border-bottom p-3 text-capitalize">{book.category_name}</h4>
             </div>
           </div>
         </div>
@@ -52,7 +52,6 @@ function Book(props) {
                       <article className="gallery-wrap">
                         <div className="card img-wrap">
                           <a href="#">
-                            {' '}
                             <img src={book.book_cover_photo} />
                           </a>
                         </div>
@@ -60,13 +59,13 @@ function Book(props) {
                     </aside>
                     <main className="col-md-8">
                       <article>
-                        <span className="text-primary">{book.author_name}</span>
+                        <span className="text-primary">By (author) {book.author_name}</span>
                         <h3 className="title">{book.book_title}</h3>
                         <div>
                           <ul className="rating-stars">
                             <li
                               style={{
-                                width: '60%',
+                                width: book.avg_star*20+"%",
                               }}
                               className="stars-active"
                             >
@@ -77,7 +76,7 @@ function Book(props) {
                             </li>
                           </ul>
                           <span className="label-rating mr-3 text-muted">
-                            7/10
+                            { book.avg_star } star
                           </span>
                         </div>
 
@@ -162,4 +161,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Book)
+export default connect(null, mapDispatchToProps)(Product)

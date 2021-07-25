@@ -49,7 +49,7 @@ export default function ReviewForm({ book, fetchData }) {
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="form-row">
             <div className="col form-group">
-              <label>Add a title</label>
+              <label>Add a title: <span className="text-danger">*</span></label>
               <input
                 type="text"
                 className="form-control"
@@ -70,7 +70,7 @@ export default function ReviewForm({ book, fetchData }) {
             ></textarea>
           </div>
           <div className="form-group">
-            <label>Select a rating star?</label>
+            <label>Select a rating star: <span className="text-danger">*</span></label>
             <select
               className="form-control"
               value={ratingStart}

@@ -67,6 +67,7 @@ export default function cartReducer(state = initProduct, action) {
         return p_product.id == item.product.id
       }).quantity
       if (p_quantity == MAX_QUANTITY) {
+        toast.warning('You can only add up to 8 items!')
         return {
           ...state,
         }
@@ -91,6 +92,7 @@ export default function cartReducer(state = initProduct, action) {
         return p_product.id == item.product.id
       }).quantity
       if (p_quantity == 1) {
+        toast.info('Product has been removed from cart!')
         return {
           ...state,
           numberCart: state.numberCart - 1,

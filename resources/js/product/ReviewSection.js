@@ -58,6 +58,7 @@ export default function ReviewSection({ book }) {
   }
 
   function changeSortBy(event) {
+    setPage(1)
     setSortBy(event.target.value)
   }
 
@@ -152,7 +153,10 @@ export default function ReviewSection({ book }) {
               ) : (
                 <div>
                   {reviews.map((review, index) => (
-                    <ReviewItem key={index} review={review} />
+                    <>
+                      <ReviewItem key={index} review={review} />
+                      <hr className="review-sep" />
+                    </>
                   ))}
 
                   <Pagination

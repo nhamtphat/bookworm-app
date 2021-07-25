@@ -78,8 +78,8 @@ function Cart(props) {
               <div className="card">
                 <table className="table table-borderless table-shopping-cart">
                   <thead className="text-muted">
-                    <tr className="small text-uppercase">
-                      <th scope="col">Book</th>
+                    <tr className="small">
+                      <th scope="col">Product</th>
                       <th scope="col" width="120" className="d-none d-md-block">
                         Price
                       </th>
@@ -124,9 +124,11 @@ function Cart(props) {
                             <var className="price">
                               ${item.product.final_price}
                             </var>
-                            <del className="sub-text">
-                              ${item.product.book_price}
-                            </del>
+                            {(item.product.final_price === item.product.book_price) ?(
+                              <del className="sub-text">
+                                ${item.product.book_price}
+                              </del>
+                            ) : null}
                           </div>
                         </td>
                         <td>
@@ -188,13 +190,6 @@ function Cart(props) {
                     ))}
                   </tbody>
                 </table>
-
-                <div className="card-body border-top">
-                  <p className="icontext">
-                    <i className="icon text-success fa fa-truck"></i> Free
-                    Delivery within 1-2 weeks
-                  </p>
-                </div>
               </div>
             </div>
             <div className="col-md-4 mt-3 mt-md-0">
