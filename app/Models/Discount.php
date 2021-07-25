@@ -18,7 +18,7 @@ class Discount extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->whereDate('discount_start_date', '<', now())
+        return $query->whereDate('discount_start_date', '<=', now())
         ->where(function ($query) {
             $query->whereDate('discount_end_date', '>=', now())
                 ->orWhereNull('discount_end_date');
