@@ -11,7 +11,7 @@ const initFilter = {
   filterValueName: '',
 }
 
-export default function ReviewSection({ book }) {
+export default function ReviewSection({ book, fetchBook }) {
   const [reviews, setReviews] = useState([])
   const [sortBy, setSortBy] = useState('newest_first')
   const [currentFilter, setFilter] = useState(initFilter)
@@ -38,6 +38,7 @@ export default function ReviewSection({ book }) {
 
   function fetchData() {
     if (book.id === undefined) return
+
     const config = {
       params: {
         per_page: perPage,
@@ -55,6 +56,11 @@ export default function ReviewSection({ book }) {
     axios.get(`/api/books/${book.id}/reviews/filters`).then((response) => {
       setAllFilters(response.data[0].data)
     })
+  }
+
+  function getBook() {
+    fetchBook()
+    fetchData()
   }
 
   function changeSortBy(event) {
@@ -168,7 +174,7 @@ export default function ReviewSection({ book }) {
         </div>
       </div>
       <div className="col-md-4 mt-3 mt-md-0">
-        <ReviewForm book={book} fetchData={fetchData} />
+        <ReviewForm book={book} fetchData={getBook} />
       </div>
     </div>
   )

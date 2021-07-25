@@ -14,10 +14,14 @@ function Product(props) {
   const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
+    fetchBook()
+  }, [])
+
+  function fetchBook() {
     axios.get(`/api/books/${props.match.params.id}`).then((response) => {
       setBook(response.data.data)
     })
-  }, [])
+  }
 
   function updateQuantity(new_value) {
     if (new_value > 8) return
@@ -157,7 +161,7 @@ function Product(props) {
               </div>
             </div>
           </div>
-          <ReviewSection book={book} />
+          <ReviewSection book={book} fetchBook={fetchBook} />
 
         </div>
       </section>
