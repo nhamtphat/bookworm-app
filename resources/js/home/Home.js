@@ -41,7 +41,6 @@ export default function Home() {
 
   function dataIsReady() {
     return !(
-      onSaleBook.length == 0 ||
       recommendedBooks.length == 0 ||
       popularBooks.length == 0
     )
@@ -57,26 +56,28 @@ export default function Home() {
         {!dataIsReady() ? <LoadingSpin /> : null}
 
         <div className={'container ' + (dataIsReady() ? '' : 'd-none')}>
-          <div className="row">
-            <div className="col-12">
-              <h4 className="d-inline">On Sale</h4>
-              <Link to="/shop" className="btn btn-secondary float-right">
-                View all <i className="fas fa-caret-right ml-2"></i>
-              </Link>
-            </div>
-          </div>
 
-          {onSaleBook.length == 0 ? (
-            <LoadingSpin />
-          ) : (
-            <Slider {...settings}>
-              {onSaleBook.map((book) => (
-                <div key={book.id} className="item-slide p-2">
-                  <BookGridFigure book={book} />
+
+          {onSaleBook.length > 0 ? (
+            <div>
+              <div className="row">
+                <div className="col-12">
+                  <h4 className="d-inline">On Sale</h4>
+                  <Link to="/shop" className="btn btn-secondary float-right">
+                    View all <i className="fas fa-caret-right ml-2"></i>
+                  </Link>
                 </div>
-              ))}
-            </Slider>
-          )}
+              </div>
+
+              <Slider {...settings}>
+                {onSaleBook.map((book) => (
+                  <div key={book.id} className="item-slide p-2">
+                    <BookGridFigure book={book} />
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          ): null}
 
           <div className="p-3 mt-5 text-center">
             <h4>Featured Books</h4>

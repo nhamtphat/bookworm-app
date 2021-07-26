@@ -18,6 +18,7 @@ class HomepageController extends Controller
         $onsale_books = BookResource::collection(
             $this->bookModel
                 ->with('author', 'category', 'availableDiscounts', 'reviews')
+                ->has('availableDiscounts')
                 ->selectSubPrice()
                 ->orderByDesc('sub_price')
                 ->limit(10)
